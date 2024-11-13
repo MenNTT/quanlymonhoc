@@ -1,0 +1,6 @@
+.section-divider {
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #dee2e6, transparent);
+    margin: 2rem auto;
+} 

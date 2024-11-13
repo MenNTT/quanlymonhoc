@@ -1,0 +1,81 @@
+.main-content {
+    height: calc(100vh - 60px);
+}
+
+.sidebar {
+    border-left: 1px solid #ddd;
+    height: calc(100vh - 60px);
+}
+
+.icon-button {
+    font-size: 1.5rem;
+}
+
+.user-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.content-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa;
+    height: 100%;
+}
+
+.user-list {
+    height: 100%;
+    overflow-y: auto;
+}
+
+.chat-box {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.messages {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.chat-input {
+    position: sticky;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+}
+
+.chat-input .form-control {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.chat-input .btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+/* OnlineClassroom.css */
+.chat-box .messages .d-flex {
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
+.chat-box .messages .d-flex img {
+    width: 30px;
+    height: 30px;
+}
+
+.chat-box .messages .d-flex div {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    margin-left: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}

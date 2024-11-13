@@ -1,0 +1,72 @@
+:root {
+    --primary-color: #200894;
+    --hover-color: #0e09a0;
+}
+
+.btn-outline-primary {
+    color: #fff !important;
+    border: none !important;
+    background: linear-gradient(135deg, var(--primary-color), var(--hover-color)) !important;
+    border-radius: 20px !important;
+    padding: 8px 16px !important;
+    box-shadow: 0 2px 4px rgba(32, 8, 148, 0.2),
+                0 4px 8px rgba(14, 9, 160, 0.1);
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
+    background: linear-gradient(135deg, var(--hover-color), var(--primary-color)) !important;
+    color: #fff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(32, 8, 148, 0.3),
+                0 8px 16px rgba(14, 9, 160, 0.2);
+}
+
+.btn-outline-primary:active,
+.btn-outline-primary.active {
+    background: var(--primary-color) !important;
+    color: white !important;
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(32, 8, 148, 0.2);
+}
+
+.course-list-subject::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 3px;
+    background-color: var(--primary-color);
+    margin: 10px auto 0;
+}
+
+.MuiSvgIcon-root {
+    font-size: 1.2rem !important;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+.btn-primary {
+    color: #fff !important;
+    border: none !important;
+    background: linear-gradient(135deg, var(--primary-color), var(--hover-color)) !important;
+    border-radius: 20px !important;
+    padding: 8px 20px !important;
+    box-shadow: 0 2px 4px rgba(32, 8, 148, 0.2),
+                0 4px 8px rgba(14, 9, 160, 0.1);
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--hover-color), var(--primary-color)) !important;
+    color: #fff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(32, 8, 148, 0.3),
+                0 8px 16px rgba(14, 9, 160, 0.2);
+}
+
+.btn-primary:active {
+    background: var(--primary-color) !important;
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(32, 8, 148, 0.2);
+}

@@ -1,0 +1,25 @@
+.post-tabs {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.post-tab-item {
+    margin-bottom: -1px;
+}
+
+.post-tab-link {
+    background: none;
+    color: #6c757d;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.post-tab-link:hover {
+    color: #495057;
+    background-color: #f8f9fa;
+}
+
+.post-tab-link.active {
+    background-color: #212529 !important;
+    color: white !important;
+    border-radius: 15px;
+}

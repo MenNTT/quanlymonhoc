@@ -1,0 +1,33 @@
+.carousel-control-prev,
+.carousel-control-next {
+    background: transparent !important;
+    opacity: 1;
+    width: 45px;
+    height: 45px;
+    top: 50%;
+    transform: translateY(-0%);
+    user-select: none;
+    pointer-events: auto;
+    position: absolute;
+}
+
+.carousel-control-prev {
+    left: 15px;
+}
+
+.carousel-control-next {
+    right: 15px;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 25px;
+    height: 25px;
+    filter: drop-shadow(0 0 2px rgba(0,0,0,0.3));
+    pointer-events: none;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    opacity: 0.8;
+}

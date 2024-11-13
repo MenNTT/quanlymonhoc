@@ -1,0 +1,30 @@
+/* ServiceListDropdown.css */
+.service-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+.service-item:hover {
+    background-color: #f0f0f0; /* Màu nền hơi xám khi hover */
+    color: orange; /* Màu chữ cam khi hover */
+    cursor: pointer;
+}
+
+.service-item i {
+    margin-right: 10px;
+    font-size: 1.5rem;
+}
+
+.service-text {
+    white-space: nowrap; /* Giữ tên dịch vụ trên một dòng */
+    overflow: hidden; /* Ẩn phần nội dung tràn ra */
+    text-overflow: ellipsis; /* Hiển thị dấu "..." nếu tên dịch vụ quá dài */
+}
+
+.service-column {
+    flex-grow: 1; /* Cho phép cột mở rộng */
+    min-width: 150px; /* Đặt độ rộng tối thiểu */
+    max-width: 300px; /* Đặt độ rộng tối đa */
+}

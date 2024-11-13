@@ -1,0 +1,39 @@
+.container {
+    max-width: 800px;
+}
+
+.activity-feed {
+    margin-top: 20px;
+}
+
+.activity-post {
+    border: 1px solid #e0e0e0; /* Light gray border */
+    border-radius: 10px; /* Rounded corners */
+    padding: 15px; /* Padding around the content */
+    transition: box-shadow 0.3s; /* Smooth transition for hover effect */
+}
+
+.activity-post:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow on hover */
+}
+
+.post-content {
+    font-size: 16px; /* Larger font size for post content */
+}
+
+.assignment {
+    font-weight: bold; /* Bold for assignment text */
+    color: #007bff; /* Blue color for assignments */
+}
+
+.comment {
+    border-left: 4px solid #007bff; /* Blue left border for comments */
+}
+
+.input-group {
+    margin-top: 10px; /* Space above the input group */
+}
+
+.comments-list {
+    margin-top: 10px; /* Space above comments list */
+}

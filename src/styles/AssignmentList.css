@@ -1,0 +1,13 @@
+.sticky-header {
+    position: sticky;
+    margin-bottom: 10px;
+    background: rebeccapurple;
+    top: 0; /* Position from the top of the viewport */
+}
+
+.sticky-tabs {
+    position: sticky;
+    z-index: 1000; /* Ensure it stays above other content */
+    background-color: #f8f9fa; /* Background color to match header */
+    padding: 10px 0; /* Padding to keep it visually distinct */
+}

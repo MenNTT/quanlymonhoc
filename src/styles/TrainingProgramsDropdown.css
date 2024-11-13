@@ -1,0 +1,28 @@
+.dropdown-menu {
+    position: absolute;
+    z-index: 1000;
+    background-color: white; /* Màu nền cho dropdown */
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0.25rem;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
+    font-size: small;
+}
+
+.dropdown-menu .list-unstyled li {
+    padding: 5px 0;
+    transition: background-color 0.3s, color 0.3s; /* Hiệu ứng chuyển màu mượt mà */
+}
+
+.dropdown-menu .list-unstyled li:hover {
+    background-color: #f0f0f0; /* Màu nền hơi xám khi hover */
+    color: orange; /* Màu chữ cam khi hover */
+}
+
+.dropdown-menu .list-unstyled li:hover i {
+    color: orange; /* Đổi màu icon sang cam khi hover */
+}
+
+/* Thay đổi màu của span khi hover */
+.dropdown-menu .list-unstyled li:hover span {
+    color: orange; /* Màu chữ cam khi hover */
+}

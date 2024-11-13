@@ -1,0 +1,1 @@
+export const FALLBACK_IMAGE = '/path/to/fallback-image.jpg'; 

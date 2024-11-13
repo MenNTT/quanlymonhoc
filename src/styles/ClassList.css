@@ -1,0 +1,76 @@
+/* ClassList.css */
+.card {
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    /*transform: translateY(-5px);*/
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.card-text {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+/* Button customization */
+.btn-detail {
+    background: linear-gradient(45deg, #007bff, #00c6ff); /* Gradient background */
+    border: none;
+    border-radius: 50px; /* Rounded corners */
+    color: white;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    z-index: 0;
+}
+
+/* Add hover effects */
+.btn-detail:hover {
+    background: linear-gradient(45deg, #0056b3, #0087d1); /* Darker gradient on hover */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add subtle shadow */
+    transform: translateY(-2px); /* Slight upward movement on hover */
+}
+
+/* Add icon margin */
+.btn-detail i {
+    margin-right: 8px; /* Space between icon and text */
+}
+
+/* Make the class card content centered and add shadow */
+.class-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Horizontally centers content */
+    justify-content: center; /* Vertically centers content */
+    text-align: center; /* Center text inside the card */
+    height: 100%; /* Ensure the card takes full height */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+    border-radius: 10px;
+}
+
+/* Add hover effect with a more prominent shadow */
+.class-card:hover {
+    transform: translateY(-5px); /* Lift the card slightly */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+}
+
+/* Ensure the image remains a square and is centered */
+.class-image {
+    width: 100%;
+    height: auto;
+    max-width: 150px;
+    max-height: 150px;
+    object-fit: cover;
+    border-radius: 10px; /* Optional rounded corners */
+    margin-bottom: 10px;
+}

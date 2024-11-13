@@ -1,0 +1,7 @@
+.sidebar-link:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* Thay đổi màu nền khi hover */
+    border-radius: 5px; /* Bo góc nhẹ cho mục */
+}
+.btn {
+    z-index: 1000; /* Đặt z-index cao để nút nằm trên các phần tử khác */
+}
