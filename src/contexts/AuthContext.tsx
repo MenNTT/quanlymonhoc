@@ -5,8 +5,9 @@ interface User {
     id: string;
     email: string;
     fullName: string;
-    phoneNumber?: string;
-    address?: string;
+    phoneNumber: string | null;
+    address: string | null;
+    birthDate: string | null;
 }
 
 interface AuthContextType {
@@ -16,16 +17,34 @@ interface AuthContextType {
     logout: () => void;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AuthContext = createContext<AuthContextType>({
+    user: null,
+    setUser: () => {},
+    isAuthenticated: false,
+    logout: () => {}
+});
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+function useAuth() {
+    const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error('useAuth must be used within an AuthProvider');
+    }
+    return context;
+}
+
+function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
-        // Kiểm tra user trong localStorage khi component mount
         const storedUser = localStorage.getItem('user');
-        if (storedUser) {
+        const token = cookieService.get('authToken');
+        
+        if (storedUser && token) {
             setUser(JSON.parse(storedUser));
+        } else {
+            setUser(null);
+            localStorage.removeItem('user');
+            cookieService.remove('authToken');
         }
     }, []);
 
@@ -37,17 +56,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         localStorage.removeItem('user');
     };
 
+    const value = {
+        user,
+        setUser,
+        isAuthenticated,
+        logout
+    };
+
     return (
-        <AuthContext.Provider value={{ user, setUser, isAuthenticated, logout }}>
+        <AuthContext.Provider value={value}>
             {children}
         </AuthContext.Provider>
     );
-};
+}
 
-export const useAuth = () => {
-    const context = useContext(AuthContext);
-    if (context === undefined) {
-        throw new Error('useAuth must be used within an AuthProvider');
-    }
-    return context;
-};
+export { AuthProvider, useAuth };

@@ -15,6 +15,7 @@ interface LoginResponse {
         fullName: string;
         phoneNumber: string | null;
         address: string | null;
+        birthDate: string | null;
     }
 }
 
@@ -42,28 +43,27 @@ const Login: React.FC = () => {
             if (response.data.success && response.data.data) {
                 const { token, user } = response.data.data;
                 
-                // Lưu token
-                cookieService.set('authToken', token);
+                // Lưu token với prefix "Bearer "
+                cookieService.set('authToken', `Bearer ${token}`);
                 
                 // Lưu user data và cập nhật context
-                localStorage.setItem('user', JSON.stringify(user));
-                setUser(user as any);
+                const userData = {
+                    ...user,
+                    phoneNumber: user.phoneNumber || null,
+                    address: user.address || null,
+                    birthDate: user.birthDate || null
+                };
+                
+                localStorage.setItem('user', JSON.stringify(userData));
+                setUser(userData);
 
-                // Chuyển hướng về trang chủ
                 navigate('/');
-            } else {
-                setError(response.data.message || 'Login failed');
             }
         } catch (error: any) {
-            if (error.response) {
-                // Handle specific error responses from the server
-                const errorMessage = error.response.data?.message || 'Invalid email or password';
-                setError(errorMessage);
-            } else if (error.request) {
-                // Handle network errors
-                setError('Network error. Please try again later.');
+            if (error.response?.data?.message) {
+                setError(error.response.data.message);
             } else {
-                setError('Login failed. Please try again.');
+                setError('Đăng nhập thất bại. Vui lòng thử lại.');
             }
         }
     };

@@ -7,6 +7,7 @@ export const API_ENDPOINTS = {
     AUTH: {
         LOGIN: `${BASE_PATH}/auth/login`,
         REGISTER: `${BASE_PATH}/auth/register`,
+        UPDATE: (id: string) => `${BASE_PATH}/auth/update/${id}`, 
     },
 
     // Account endpoints
@@ -143,6 +144,7 @@ export const API_ENDPOINTS = {
         UPDATE: `${BASE_PATH}/log/update`,
         DELETE: (id: string | number) => `${BASE_PATH}/log/delete/${id}`,
     },
+
 } as const;
 
 // Type for API response

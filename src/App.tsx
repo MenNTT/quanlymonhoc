@@ -8,17 +8,15 @@ import { AuthProvider } from './contexts/AuthContext';
 
 const App: React.FC = () => {
     return (
-        <div>
-            <AuthProvider>
-                <CartProvider>
-                    <UserProvider>
-                    <BrowserRouter>
-                        <RouteComponent />
-                    </BrowserRouter>
-                    </UserProvider>
-                </CartProvider>
-            </AuthProvider>
-        </div>
+        <AuthProvider>
+            <CartProvider>
+                <UserProvider>
+                <BrowserRouter>
+                    <RouteComponent />
+                </BrowserRouter>
+                </UserProvider>
+            </CartProvider>
+        </AuthProvider>
     );
 };
 

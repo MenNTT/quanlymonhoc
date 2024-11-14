@@ -1,7 +1,71 @@
-.sidebar-link:hover {
-    background-color: rgba(0, 0, 0, 0.1); /* Thay đổi màu nền khi hover */
-    border-radius: 5px; /* Bo góc nhẹ cho mục */
+/* Sidebar styles */
+.sidebar {
+    background: #f8f9fa;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
 }
-.btn {
-    z-index: 1000; /* Đặt z-index cao để nút nằm trên các phần tử khác */
+
+/* Section headers */
+.sidebar h5 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #000000;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 1rem;
+}
+
+/* Navigation links */
+.nav-link.sidebar-link {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    color: #000000 !important;
+    font-size: 0.875rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    margin-bottom: 0.25rem;
+}
+
+.nav-link.sidebar-link:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: #000000 !important;
+    transform: translateX(5px);
+}
+
+.nav-link.sidebar-link.active {
+    background-color: rgba(0, 0, 0, 0.08);
+    color: #000000 !important;
+    font-weight: 500;
+}
+
+/* Icons in sidebar */
+.sidebar-link i {
+    font-size: 1.1rem;
+    margin-right: 0.75rem;
+    width: 1.5rem;
+    text-align: center;
+}
+
+/* Divider */
+.sidebar hr {
+    margin: 1.5rem 0;
+    border-color: #e9ecef;
+}
+
+/* Toggle button for mobile */
+.sidebar-toggle {
+    width: 45px;
+    height: 45px;
+    border-radius: 0.5rem;
+    background: white;
+    border: 1px solid #e9ecef;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.sidebar-toggle:hover {
+    background: #000000;
+    transform: translateY(-2px);
 }
