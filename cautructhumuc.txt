@@ -1,0 +1,5 @@
+Cấu trúc lại thư mục và file:
+- src/pages: chứa các page của app
+- src/services: chứa các hàm, các class dùng để gọi api
+- src/models: chứa các file dùng để định dạng dữ liệu đầu vào và đầu ra của api
+    

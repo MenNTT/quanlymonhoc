@@ -1,18 +1,18 @@
 // RouteComponent.tsx đừng sửa toàn bộ file này
 import { Route, Routes, useLocation } from "react-router-dom";
 import React from "react";
-import HomePage from "../components/homepage/Homepage.tsx";
-import CourseDetail from "../components/coursedetail/CourseDetail.tsx";
-import Login from "../components/authenpage/Login.tsx";
-import Register from "../components/authenpage/Register.tsx";
-import Payment from "../components/coursedetail/Payment.tsx";
-import ProfileContainer from "../components/profile/ProfileContainer.tsx";
+import HomePage from "../pages/HomePage/Homepage.tsx";
+import CourseDetail from "../pages/coursedetail/CourseDetail.tsx";
+import Login from "../pages/authenpage/Login.tsx";
+import Register from "../pages/authenpage/Register.tsx";
+import Payment from "../pages/PaymentPage/Payment.tsx";
+import ProfileContainer from "../pages/ProfilePage/ProfileContainer.tsx";
 import Header from "../components/containers/header/Header.tsx";
 import Footer from "../components/containers/footer/Footer.tsx";
 import ClassroomActivities from "../components/classpage/ClassroomActivities.tsx";
-import OnlineClassroom from "../components/classpage/onlineclassroom/OnlineClassroom.tsx";
-import Cart from "../pages/Cart.tsx";
-import PaymentGuide from "../pages/PaymentGuide.tsx";
+import OnlineClassroom from "../pages/onlineclassroom/OnlineClassroom.tsx";
+import Cart from "../pages/CartPage/Cart.tsx";
+import PaymentGuide from "../pages/PaymentGuidePage/PaymentGuide.tsx";
 
 const RouteComponent: React.FC = () => {
     // Lấy thông tin về đường dẫn hiện tại

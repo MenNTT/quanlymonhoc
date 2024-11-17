@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { cookieService } from '../shared/services/cookie.service';
+import { cookieService } from '../services/cookie.service';
 
 interface User {
     id: string;

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import axios from 'axios';
-import { BASE_URL, API_ENDPOINTS } from '../../services/api/api.config';
+import { BASE_URL, API_ENDPOINTS } from '../../constants/api/api.config';
 import { useNavigate } from 'react-router-dom';
-import { cookieService } from '../../shared/services/cookie.service';
+import { cookieService } from '../../services/cookie.service';
 
 interface UserProfile {
     id: string;
