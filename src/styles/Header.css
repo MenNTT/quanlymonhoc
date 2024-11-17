@@ -1,113 +1,67 @@
 .header-wrapper {
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding-left: 0px;
 }
 
 /* Logo */
 .header-logo img {
-    height: 45px;
+    height: 90px;
     width: auto;
 }
 
-/* Search Bar */
-.header-search {
-    width: 40%;
-    margin: 0 20px;
-    padding-bottom: 15px;
-}
-
-.header-search .input-group {
+/* Navigation Links - New */
+.header-nav {
     display: flex;
     align-items: center;
-    height: 40px;
+    gap: 24px;
+    margin-left: 32px;
 }
 
-.search-input {
-    height: 40px;
-    border-radius: 20px 0 0 20px;
-    border: 1px solid #e0e0e0;
-    border-right: none;
-    padding: 8px 15px;
+.d-flex.align-items-center.gap-3 {
+    gap: 0.75rem !important; /* Giảm gap giữa search, cart và actions */
+}
+
+.nav-link {
+    color: #666;
+    text-decoration: none;
     font-size: 14px;
-    line-height: 40px;
+    padding: 8px 0;
 }
 
-.search-input:focus {
-    outline: none;
-    box-shadow: none;
-    border-color: #003060;
-    border-right: none;
+.nav-link:hover {
+    color: #000;
 }
 
-.input-group > .form-control {
-    border-right: none;
-}
-
-.input-group > .btn-search {
-    border-left: none;
-    margin-left: -1px;
-}
-
-.btn-search {
-    height: 40px;
-    min-height: 40px;
-    border-radius: 0 20px 20px 0;
-    background: #003060;
-    color: white;
-    border: 1px solid #003060;
-    padding: 0 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: -1px;
-}
-
-.btn-search i {
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.btn-search:hover {
-    background: #003060;
-    color: #ffffff;
-}
-
-/* Header Actions */
+/* Update header actions */
 .header-actions {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 12px;
 }
 
-.cart-link, 
 .login-button,
-.dropdown-toggle {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    color: #333;
+.signup-button {
+    padding: 8px 16px;
+    border-radius: 4px;
     font-size: 14px;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 18px;
+    font-weight: 500;
+}
+
+.login-button {
+    color: #666;
     background: none;
-    cursor: pointer;
+    border: none;
 }
 
-.cart-link:hover,
-.login-button:hover,
-.dropdown-toggle:hover {
-    color: #0A2647;
-    background-color: #d8e1e8;
+.signup-button {
+    color: #fff;
+    background: #9333EA;
+    border: none;
 }
 
-.cart-link i,
-.login-button i,
-.dropdown-toggle i {
-    font-size: 20px;
+.signup-button:hover {
+    background: #7E22CE;
 }
 
 /* Dropdown Menu */
@@ -227,4 +181,105 @@
 
 .dropdown-item:hover {
     background-color: rgba(0, 0, 0, 0.05);
+}
+
+.header-search {
+    width: 300px;
+}
+
+.header-search .input-group {
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.header-search .form-control {
+    border: 1px solid #e0e0e0;
+    padding: 8px 12px;
+    font-size: 14px;
+}
+
+.header-search .btn {
+    border: 1px solid #e0e0e0;
+    border-left: none;
+    padding: 8px 12px;
+    background: white;
+}
+
+.header-search .btn:hover {
+    background: #f5f5f5;
+}
+
+.header-search .form-control:focus {
+    border-color: #9333EA;
+    box-shadow: none;
+    outline: none;
+}
+
+/* Cart */
+.cart-link {
+    position: relative;
+    color: #666;
+    font-size: 20px;
+    text-decoration: none;
+    padding: 8px;
+}
+
+.cart-link:hover {
+    color: #000;
+}
+
+.cart-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #9333EA;
+    color: white;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    transform: translate(50%, -50%);
+}
+
+/* Update spacing */
+.gap-3 {
+    gap: 1rem;
+}
+
+/* Make sure the cart and search are properly aligned */
+.d-flex.align-items-center {
+    height: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .header-search {
+        width: 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-search {
+        display: none;
+    }
+    
+    .cart-link {
+        font-size: 18px;
+    }
+}
+
+/* Cập nhật container trong header */
+.header-wrapper .container {
+    max-width: 100%;
+    padding-left: 24px;
+    padding-right: 24px;
+    margin: 0;
+    width: 100%;
+}
+
+/* Điều chỉnh khoảng cách của nav */
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-left: 16px;
 }

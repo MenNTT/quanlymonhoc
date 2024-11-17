@@ -1,7 +1,7 @@
 import { BsFillFileEarmarkTextFill, BsFileEarmark, BsCameraVideoFill } from 'react-icons/bs';
 import { Dropdown } from 'react-bootstrap';
 import { Post } from '../../mock_data/mockPost';
-import { useUser } from '../contents/UserContext.tsx'; // Import useUser hook
+import { useUser } from '../../contexts/UserContext.tsx'; // Import useUser hook
 
 interface ClassNavigationProps {
     onSelect: (tab: 'posts' | 'files' | 'meetNow' | 'scheduleMeeting') => void;

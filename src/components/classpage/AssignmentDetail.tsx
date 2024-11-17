@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaArrowLeft, FaPaperclip, FaCheckCircle } from 'react-icons/fa';
 import { Assignment } from '../../mock_data/mockAssignment';
-import { useUser } from '../contents/UserContext';
+import { useUser } from '../../contexts/UserContext';
 import { Submission } from '../../mock_data/mockSubmission';
 
 interface AssignmentDetailProps {

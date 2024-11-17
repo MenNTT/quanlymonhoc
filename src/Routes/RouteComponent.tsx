@@ -8,7 +8,6 @@ import Register from "../components/authenpage/Register.tsx";
 import Payment from "../components/coursedetail/Payment.tsx";
 import ProfileContainer from "../components/profile/ProfileContainer.tsx";
 import Header from "../components/containers/header/Header.tsx";
-import NavbarComponent from "../components/containers/navbar/NavbarComponent.tsx";
 import Footer from "../components/containers/footer/Footer.tsx";
 import ClassroomActivities from "../components/classpage/ClassroomActivities.tsx";
 import OnlineClassroom from "../components/classpage/onlineclassroom/OnlineClassroom.tsx";
@@ -34,7 +33,6 @@ const RouteComponent: React.FC = () => {
     return (
         <>
             {!hideHeaderFooter && <Header />}
-            {!hideHeaderFooter && <NavbarComponent />}
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/course-detail/:id_course" element={<CourseDetail />} />

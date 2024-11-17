@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import '../../../styles/OnlineClassroom.css';
 import { User } from '../../../mock_data/mockUsers';
-import { useUser } from '../../contents/UserContext';
+import { useUser } from '../../../contexts/UserContext';
 
 const OnlineClassroom: React.FC = () => {
     const [activeTab, setActiveTab] = useState<'chat' | 'people'>('people');

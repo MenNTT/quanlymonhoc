@@ -4,7 +4,7 @@ import FileComponent from './FileComponent';
 import PostForm from './PostForm';
 import { Post } from '../../mock_data/mockPost';
 import { Comment } from '../../mock_data/mockComment';
-import { useUser } from '../contents/UserContext';
+import { useUser } from '../../contexts/UserContext';
 
 interface MainContentProps {
     selectedTab: 'posts' | 'files';
