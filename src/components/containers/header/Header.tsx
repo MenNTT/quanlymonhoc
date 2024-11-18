@@ -1,23 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../../styles/Header.css';
 import { useAuth } from '../../../contexts/AuthContext';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useCart } from '../../../contexts/CartContext';
-import logo from '../../../assets/logo.svg';
+import UserDropdown from './UserDropdown';
+import { cookieService } from '../../../services/cookie.service';
 
 const Header: React.FC = () => {
-    const { user, logout } = useAuth();
+    const { isAuthenticated, logout } = useAuth();
     const { cartCount } = useCart();
     const [showDropdown, setShowDropdown] = useState(false);
-    const navigate = useNavigate();
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    const handleDropdownToggle = () => {
-        setShowDropdown(!showDropdown);
-    };
+    useEffect(() => {
+        const checkLoginStatus = () => {
+            const token = cookieService.get('authToken');
+            const userData = localStorage.getItem('user');
+            setIsLoggedIn(!!token && !!userData);
+        };
 
-    const handleLoginClick = (e: React.MouseEvent) => {
-        e.preventDefault();
-        navigate('/login');
+        checkLoginStatus();
+        if (!isLoggedIn) {
+            setShowDropdown(false);
+        }
+    }, [isAuthenticated]);
+
+    const handleLogoutAndClose = () => {
+        setShowDropdown(false);
+        setIsLoggedIn(false);
     };
 
     return (
@@ -27,93 +37,59 @@ const Header: React.FC = () => {
                 <div className="d-flex align-items-center">
                     <div className="header-logo">
                         <Link to="/">
-                            <img src={logo} alt="Logo" />
+                            <span className="logo-text">ITLearn</span>
                         </Link>
                     </div>
                     
                     <nav className="header-nav">
-                        <Link to="/" className="nav-link">Home</Link>
-                        <Link to="/products" className="nav-link">Products</Link>
-                        <Link to="/resources" className="nav-link">Resources</Link>
-                        <Link to="/pricing" className="nav-link">Pricing</Link>
+                        <Link to="/" className="nav-link">Trang chủ</Link>
+                        <Link to="/about" className="nav-link">Giới thiệu</Link>
+                        <Link to="/courses" className="nav-link">Khoá học</Link>
+                        <Link to="/search" className="nav-link">Tra cứu</Link>
+                        <Link to="/news" className="nav-link">Tin tức</Link>
                     </nav>
                 </div>
 
-                {/* Search, Cart and Actions */}
-                <div className="d-flex align-items-center gap-3">
-                    {/* Search Bar */}
-                    <div className="header-search">
-                        <div className="input-group">
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Tìm kiếm khóa học..."
+                {/* Search, Cart and User Actions */}
+                <div className="d-flex align-items-center header-right">
+                    <form className="search-form">
+                        <div className="search-wrapper">
+                            <input 
+                                type="text" 
+                                placeholder="Tìm kiếm khoá học..." 
+                                className="search-input"
                             />
-                            <div className="input-group-append">
-                                <button className="btn btn-outline-secondary" type="button">
-                                    <i className="bi bi-search"></i>
-                                </button>
-                            </div>
+                            <button type="submit" className="search-button">
+                                <i className="fas fa-search"></i>
+                            </button>
                         </div>
-                    </div>
+                    </form>
 
-                    {/* Cart */}
                     <Link to="/cart" className="cart-link">
-                        <i className="bi bi-cart3"></i>
+                        <i className="fas fa-shopping-cart"></i>
                         {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
                     </Link>
 
-                    {/* Auth Actions */}
-                    <div className="header-actions">
-                        {!user ? (
-                            <>
-                                <button className="login-button" onClick={handleLoginClick}>
-                                    Log in
-                                </button>
-                                <Link to="/signup" className="signup-button">
-                                    Sign up
-                                </Link>
-                            </>
-                        ) : (
-                            <div className="user-dropdown">
-                                <button className="dropdown-toggle" onClick={handleDropdownToggle}>
-                                    <i className="bi bi-person-circle"></i>
-                                    <span>{user.fullName}</span>
-                                </button>
-                                {showDropdown && (
-                                    <ul className="dropdown-menu show">
-                                        <li>
-                                            <Link to="/profile" className="dropdown-item">
-                                                <i className="bi bi-person"></i>
-                                                <span>Xem hồ sơ</span>
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link to="/my-courses" className="dropdown-item">
-                                                <i className="bi bi-book"></i>
-                                                <span>Khóa học của tôi</span>
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link to="/schedule" className="dropdown-item">
-                                                <i className="bi bi-calendar3"></i>
-                                                <span>Lịch học</span>
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <button className="dropdown-item" onClick={() => {
-                                                logout();
-                                                navigate('/login');
-                                            }}>
-                                                <i className="bi bi-box-arrow-right"></i>
-                                                <span>Đăng xuất</span>
-                                            </button>
-                                        </li>
-                                    </ul>
-                                )}
+                    {isLoggedIn ? (
+                        <div className="user-menu-container">
+                            <div 
+                                className="user-icon"
+                                onClick={() => setShowDropdown(!showDropdown)}
+                            >
+                                <i className="fas fa-user-circle"></i>
                             </div>
-                        )}
-                    </div>
+                            {showDropdown && (
+                                <UserDropdown 
+                                    isOpen={showDropdown} 
+                                    onClose={handleLogoutAndClose}
+                                />
+                            )}
+                        </div>
+                    ) : (
+                        <Link to="/login" className="user-icon">
+                            <i className="fas fa-user"></i>
+                        </Link>
+                    )}
                 </div>
             </div>
         </header>

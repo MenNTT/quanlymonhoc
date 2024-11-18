@@ -13,6 +13,7 @@ import ClassroomActivities from "../components/classpage/ClassroomActivities.tsx
 import OnlineClassroom from "../pages/onlineclassroom/OnlineClassroom.tsx";
 import Cart from "../pages/CartPage/Cart.tsx";
 import PaymentGuide from "../pages/PaymentGuidePage/PaymentGuide.tsx";
+import CoursesPage from "../pages/CoursesPage/CoursesPage.tsx";
 
 const RouteComponent: React.FC = () => {
     // Lấy thông tin về đường dẫn hiện tại
@@ -35,6 +36,7 @@ const RouteComponent: React.FC = () => {
             {!hideHeaderFooter && <Header />}
             <Routes>
                 <Route path="/" element={<HomePage />} />
+                <Route path="/courses" element={<CoursesPage />} />
                 <Route path="/course-detail/:id_course" element={<CourseDetail />} />
                 <Route path='/profile' element={<ProfileContainer />} />
                 <Route path='/payment' element={<Payment />} />

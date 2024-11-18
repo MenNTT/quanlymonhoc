@@ -1,15 +1,30 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { BASE_URL } from '../constants/api/api.config';
 
 export default class BaseService {
-  protected api: AxiosInstance;
+  protected readonly api: AxiosInstance;
 
   constructor() {
     this.api = axios.create({
-      baseURL: 'http://localhost:5000/api/v1',
+      baseURL: BASE_URL,
       headers: {
         'Content-Type': 'application/json',
       },
     });
+
+    // Add response interceptor
+    this.api.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        console.error('API Error:', {
+          url: error.config?.url,
+          method: error.config?.method,
+          data: error.config?.data,
+          response: error.response?.data
+        });
+        return Promise.reject(error);
+      }
+    );
   }
 
   protected async get<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {

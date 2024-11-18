@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { register } from '../../services/auth.service'; // Import hàm register từ dịch vụ
+import authService from '../../services/auth.service';
+import { RegisterData } from '../../models/user';
 import '../../styles/Register.css';
 
 const Register: React.FC = () => {
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<RegisterData>({
         email: '',
         password: '',
-        name: '',
+        fullName: '',
         address: '',
         phoneNumber: '',
         birthDate: ''
@@ -26,17 +27,45 @@ const Register: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setError(null);
         
+        // Validate required fields
+        if (!formData.email || !formData.password || !formData.fullName) {
+            setError("Vui lòng điền đầy đủ thông tin bắt buộc");
+            return;
+        }
+
         if (formData.password !== retypePassword) {
-            setError("Passwords don't match");
+            setError("Mật khẩu nhập lại không khớp");
+            return;
+        }
+
+        // Validate email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(formData.email)) {
+            setError("Email không hợp lệ");
             return;
         }
         
         try {
-            await register(formData); // Gọi hàm register
-            navigate('/login');
-        } catch (error) {
-            setError('Đăng ký thất bại. Vui lòng thử lại.');
+            const response = await authService.register(formData);
+            console.log('Register response:', response);
+            
+            if (response.success) {
+                navigate('/login');
+            } else {
+                setError(response.message || 'Đăng ký thất bại. Vui lòng thử lại.');
+            }
+        } catch (error: any) {
+            console.error('Register error:', error);
+            
+            if (error.response) {
+                setError(error.response.data?.message || 'Đăng ký thất bại. Vui lòng thử lại.');
+            } else if (error.request) {
+                setError('Không thể kết nối đến server. Vui lòng thử lại sau.');
+            } else {
+                setError('Đã có lỗi xảy ra. Vui lòng thử lại.');
+            }
         }
     };
 
@@ -73,8 +102,8 @@ const Register: React.FC = () => {
                                 <input
                                     type="text"
                                     className="form-input"
-                                    name="name"
-                                    value={formData.name}
+                                    name="fullName"
+                                    value={formData.fullName}
                                     onChange={handleChange}
                                     required
                                 />

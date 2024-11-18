@@ -1,16 +1,22 @@
 // mockUsers.ts
 export interface User {
-    name: string;
+    id: string;
+    fullName: string;
     email: string;
-    password: string; // Add password attribute
+    phoneNumber?: string;
+    address?: string;
+    birthDate?: string;
 }
 export interface AuthResponse {
     token: string;
     user: {
-      name: string;
-      email: string;
-    };
-  }
+        id: string;
+        email: string;
+        fullName: string;
+        phoneNumber?: string;
+        address?: string;
+    }
+}
   
 export interface LoginData {
     email: string;
@@ -18,8 +24,17 @@ export interface LoginData {
   }
   
 export interface RegisterData {
-    name: string;
     email: string;
     password: string;
+    fullName: string;
+    address?: string;
+    phoneNumber?: string;
+    birthDate?: string;
   }
+  
+export interface ApiAuthResponse {
+    success: boolean;
+    message: string;
+    data?: AuthResponse;
+}
   

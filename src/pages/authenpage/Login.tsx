@@ -1,8 +1,9 @@
 // Login.tsx
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { login } from '../../services/auth.service';
+import authService from '../../services/auth.service';
 import '../../styles/Login.css';
+import { useAuth } from '../../contexts/AuthContext';
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -10,18 +11,30 @@ const Login: React.FC = () => {
     const [rememberMe, setRememberMe] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
+    const { setUser } = useAuth();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError(null);
 
         try {
-            const response = await login({ email: email.trim(), password });
-            if (response) {
+            const response = await authService.login({ email: email.trim(), password });
+            if (response.success && response.data) {
+                const userData = {
+                    ...response.data.user,
+                    token: response.data.token
+                };
+                // Lưu user data vào localStorage
+                localStorage.setItem('user', JSON.stringify(userData));
+                // Cập nhật context
+                setUser(userData);
                 navigate('/');
+            } else {
+                setError(response.message || 'Đăng nhập thất bại');
             }
         } catch (error: any) {
-            setError('Đăng nhập thất bại. Vui lòng thử lại.');
+            console.error('Login error:', error);
+            setError(error.response?.data?.message || 'Đăng nhập thất bại. Vui lòng thử lại.');
         }
     };
 

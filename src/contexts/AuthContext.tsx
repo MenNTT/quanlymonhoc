@@ -1,14 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { cookieService } from '../services/cookie.service';
-
-interface User {
-    id: string;
-    email: string;
-    fullName: string;
-    phoneNumber: string | null;
-    address: string | null;
-    birthDate: string | null;
-}
+import { User } from '../models/user';
 
 interface AuthContextType {
     user: User | null;
@@ -17,41 +9,47 @@ interface AuthContextType {
     logout: () => void;
 }
 
-const AuthContext = createContext<AuthContextType>({
-    user: null,
-    setUser: () => {},
-    isAuthenticated: false,
-    logout: () => {}
-});
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-function useAuth() {
+const useAuth = () => {
     const context = useContext(AuthContext);
-    if (!context) {
+    if (context === undefined) {
         throw new Error('useAuth must be used within an AuthProvider');
     }
     return context;
-}
+};
 
-function AuthProvider({ children }: { children: React.ReactNode }) {
+const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
-        const storedUser = localStorage.getItem('user');
         const token = cookieService.get('authToken');
+        const storedUser = localStorage.getItem('user');
         
-        if (storedUser && token) {
-            setUser(JSON.parse(storedUser));
+        if (token && storedUser) {
+            try {
+                const userData = JSON.parse(storedUser);
+                setUser(userData);
+                setIsAuthenticated(true);
+            } catch (error) {
+                console.error('Error parsing stored user data:', error);
+                localStorage.removeItem('user');
+                cookieService.remove('authToken');
+                setUser(null);
+                setIsAuthenticated(false);
+            }
         } else {
             setUser(null);
+            setIsAuthenticated(false);
             localStorage.removeItem('user');
             cookieService.remove('authToken');
         }
     }, []);
 
-    const isAuthenticated = !!user && !!cookieService.get('authToken');
-
     const logout = () => {
         setUser(null);
+        setIsAuthenticated(false);
         cookieService.remove('authToken');
         localStorage.removeItem('user');
     };
@@ -68,6 +66,6 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
             {children}
         </AuthContext.Provider>
     );
-}
+};
 
 export { AuthProvider, useAuth };

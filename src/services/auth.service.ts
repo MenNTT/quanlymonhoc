@@ -1,41 +1,69 @@
-import { AuthResponse, LoginData, RegisterData } from '../models/user';
+import { AuthResponse, ApiAuthResponse, LoginData, RegisterData } from '../models/user';
 import BaseService from './base.service';
 import { cookieService } from './cookie.service';
+import { API_ENDPOINTS } from '../constants/api/api.config';
 
 class AuthService extends BaseService {
-    url: String = "/auth"
+    constructor() {
+        super();
+    }
 
-  async login(loginData: LoginData): Promise<AuthResponse> {
-    const response = await this.post<AuthResponse>(`${this.url}/login`, loginData);
-    return response.data;
-  }
+    async login(loginData: LoginData): Promise<ApiAuthResponse> {
+        try {
+            const response = await this.post<ApiAuthResponse>(
+                API_ENDPOINTS.AUTH.LOGIN, 
+                loginData
+            );
+            
+            if (response.data.success && response.data.data) {
+                const token = response.data.data.token;
+                if (token) {
+                    cookieService.set('authToken', token);
+                }
+            }
+            return response.data;
+        } catch (error) {
+            console.error('Login error:', error);
+            throw error;
+        }
+    }
 
-  /**
-   * Register a new user.
-   * @param registerData - User's registration details.
-   * @returns The registered user data.
-   */
-  async register(registerData: RegisterData): Promise<AuthResponse> {
-    const response = await this.post<AuthResponse>(`${this.url}/register`, registerData);
-    return response.data;
-  }
+    async register(registerData: RegisterData): Promise<ApiAuthResponse> {
+        try {
+            const response = await this.post<ApiAuthResponse>(
+                API_ENDPOINTS.AUTH.REGISTER, 
+                registerData
+            );
+            console.log('Register response:', response);
+            return response.data;
+        } catch (error) {
+            console.error('Register error:', error);
+            throw error;
+        }
+    }
 
-  /**
-   * Log out the user by removing the token from cookies.
-   */
-  logout(): void {
-    cookieService.remove('authToken');
-  }
+    async updateProfile(userId: string, userData: Partial<RegisterData>): Promise<ApiAuthResponse> {
+        try {
+            const response = await this.put<ApiAuthResponse>(
+                API_ENDPOINTS.AUTH.UPDATE(userId), 
+                userData
+            );
+            return response.data;
+        } catch (error) {
+            console.error('Update profile error:', error);
+            throw error;
+        }
+    }
 
-  /**
-   * Check if a user is authenticated by verifying the presence of a token.
-   * @returns A boolean indicating if the user is authenticated.
-   */
-  isAuthenticated(): boolean {
-    return !!cookieService.get('authToken');
-  }
+    logout(): void {
+        cookieService.remove('authToken');
+    }
+
+    isAuthenticated(): boolean {
+        return !!cookieService.get('authToken');
+    }
 }
 
-// Export an instance of AuthService
+// Export instance của AuthService
 const authService = new AuthService();
-export const { login, register } = authService;
+export default authService;
