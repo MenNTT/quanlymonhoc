@@ -14,6 +14,7 @@ import OnlineClassroom from "../pages/onlineclassroom/OnlineClassroom.tsx";
 import Cart from "../pages/CartPage/Cart.tsx";
 import PaymentGuide from "../pages/PaymentGuidePage/PaymentGuide.tsx";
 import CoursesPage from "../pages/CoursesPage/CoursesPage.tsx";
+import Dashboard from "../pages/admin/Dashboard";
 
 const RouteComponent: React.FC = () => {
     // Lấy thông tin về đường dẫn hiện tại
@@ -26,10 +27,15 @@ const RouteComponent: React.FC = () => {
         "/register",
         "/class-activity",
         "/online-classroom",
+        "/admin",
+        "/admin/courses",
+        "/admin/users",
+        "/admin/revenue"
     ]; // Thêm các đường dẫn khác nếu cần
 
-    // Kiểm tra nếu đường dẫn hiện tại nằm trong mảng hiddenRoutes
-    const hideHeaderFooter: boolean = hiddenRoutes.includes(location.pathname);
+    // Kiểm tra xem có phải là admin route không
+    const isAdminRoute = location.pathname.startsWith('/admin');
+    const hideHeaderFooter: boolean = hiddenRoutes.includes(location.pathname) || isAdminRoute;
 
     return (
         <>
@@ -46,6 +52,12 @@ const RouteComponent: React.FC = () => {
                 <Route path='/online-classroom' element={<OnlineClassroom />} />
                 <Route path='/cart' element={<Cart />} />
                 <Route path='/payment-guide' element={<PaymentGuide />} />
+
+                {/* Admin routes */}
+                <Route path="/admin" element={<Dashboard />} />
+                <Route path="/admin/courses" element={<Dashboard />} />
+                <Route path="/admin/users" element={<Dashboard />} />
+                <Route path="/admin/revenue" element={<Dashboard />} />
             </Routes>
             {!hideHeaderFooter && <Footer />}
         </>
