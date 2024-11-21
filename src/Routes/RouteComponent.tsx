@@ -22,10 +22,11 @@ import AddCourse from '../pages/admin/AddCourse.tsx';
 import EditCourse from '../pages/admin/EditCourse.tsx';
 import ManageInstructors from '../pages/admin/ManageInstructors.tsx';
 import ManageCategories from '../pages/admin/ManageCategories.tsx';
+import ProtectedRoute from './ProtectedRoute';
 
 const RouteComponent: React.FC = () => {
     const location = useLocation();
-    console.log(location);
+    console.log('Current location:', location);
 
     const hiddenRoutes: string[] = [
         "/login",
@@ -42,28 +43,113 @@ const RouteComponent: React.FC = () => {
         <>
             {!hideHeaderFooter && <Header />}
             <Routes>
+                {/* Public routes */}
                 <Route path="/" element={<HomePage />} />
-                <Route path="/courses" element={<Courses />} />
-                <Route path="/course-detail/:id_course" element={<CourseDetail />} />
-                <Route path='/profile' element={<ProfileContainer />} />
-                <Route path='/payment' element={<Payment />} />
                 <Route path='/login' element={<Login />} />
                 <Route path='/register' element={<Register />} />
-                <Route path='/class-activity' element={<ClassroomActivities />} />
-                <Route path='/online-classroom' element={<OnlineClassroom />} />
-                <Route path='/cart' element={<Cart />} />
+                <Route path="/course-detail/:id_course" element={<CourseDetail />} />
                 <Route path='/payment-guide' element={<PaymentGuide />} />
 
-                {/* Admin routes */}
-                <Route path="/admin" element={<Home />} />
-                <Route path="/admin/users" element={<Users />} />
-                <Route path="/admin/courses" element={<Courses />} />
-                <Route path="/admin/revenue" element={<Revenue />} />
-                <Route path="/admin/profile" element={<Profile />} />
-                <Route path="/admin/add-course" element={<AddCourse />} />
-                <Route path="/admin/edit-course/:id" element={<EditCourse />} />
-                <Route path="/admin/manage-instructors" element={<ManageInstructors />} />
-                <Route path="/admin/manage-categories" element={<ManageCategories />} />
+                {/* Protected user routes */}
+                <Route path='/profile' element={
+                    <ProtectedRoute>
+                        <ProfileContainer />
+                    </ProtectedRoute>
+                } />
+                <Route path='/payment' element={
+                    <ProtectedRoute>
+                        <Payment />
+                    </ProtectedRoute>
+                } />
+                <Route path='/class-activity' element={
+                    <ProtectedRoute>
+                        <ClassroomActivities />
+                    </ProtectedRoute>
+                } />
+                <Route path='/online-classroom' element={
+                    <ProtectedRoute>
+                        <OnlineClassroom />
+                    </ProtectedRoute>
+                } />
+                <Route path='/cart' element={
+                    <ProtectedRoute>
+                        <Cart />
+                    </ProtectedRoute>
+                } />
+
+                {/* Protected admin routes */}
+                <Route 
+                    path="/admin" 
+                    element={
+                        <ProtectedRoute requiredRole="admin">
+                            <Home />
+                        </ProtectedRoute>
+                    } 
+                />
+                <Route 
+                    path="/admin/users" 
+                    element={
+                        <ProtectedRoute requiredRole="admin">
+                            <Users />
+                        </ProtectedRoute>
+                    } 
+                />
+                <Route 
+                    path="/admin/courses" 
+                    element={
+                        <ProtectedRoute requiredRole="admin">
+                            <Courses />
+                        </ProtectedRoute>
+                    } 
+                />
+                <Route 
+                    path="/admin/revenue" 
+                    element={
+                        <ProtectedRoute requiredRole="admin">
+                            <Revenue />
+                        </ProtectedRoute>
+                    } 
+                />
+                <Route 
+                    path="/admin/profile" 
+                    element={
+                        <ProtectedRoute requiredRole="admin">
+                            <Profile />
+                        </ProtectedRoute>
+                    } 
+                />
+                <Route 
+                    path="/admin/add-course" 
+                    element={
+                        <ProtectedRoute requiredRole="admin">
+                            <AddCourse />
+                        </ProtectedRoute>
+                    } 
+                />
+                <Route 
+                    path="/admin/edit-course/:id" 
+                    element={
+                        <ProtectedRoute requiredRole="admin">
+                            <EditCourse />
+                        </ProtectedRoute>
+                    } 
+                />
+                <Route 
+                    path="/admin/manage-instructors" 
+                    element={
+                        <ProtectedRoute requiredRole="admin">
+                            <ManageInstructors />
+                        </ProtectedRoute>
+                    } 
+                />
+                <Route 
+                    path="/admin/manage-categories" 
+                    element={
+                        <ProtectedRoute requiredRole="admin">
+                            <ManageCategories />
+                        </ProtectedRoute>
+                    } 
+                />
             </Routes>
             {!hideHeaderFooter && <Footer />}
         </>

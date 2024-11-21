@@ -1,9 +1,10 @@
 // Login.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import authService from '../../services/auth.service';
 import '../../styles/Login.css';
 import { useAuth } from '../../contexts/AuthContext';
+import { User } from '../../models/user';
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -18,30 +19,71 @@ const Login: React.FC = () => {
         setError(null);
     
         try {
-            const response = await authService.login({ email: email.trim(), password });
+            const response = await authService.login({ 
+                email: email.trim().toLowerCase(), 
+                password 
+            });
+
+            console.log('Full server response:', response);
+
             if (response.success && response.data) {
-                const userData = {
-                    ...response.data.user,
-                    token: response.data.token
+                console.log('Response data:', response.data);
+                console.log('User roles from response:', response.data.user.roles);
+
+                const userData: User = {
+                    email: response.data.user.email,
+                    fullName: response.data.user.fullName,
+                    phoneNumber: response.data.user.phoneNumber,
+                    address: response.data.user.address,
+                    roles: response.data.user.roles
                 };
-                // Save user data to localStorage
+
+                // Lưu user data trước
                 localStorage.setItem('user', JSON.stringify(userData));
-                // Update context
-                setUser(userData);
-                // Redirect based on role
-                if (userData.role === 'admin') {
-                    navigate('/admin'); // Redirect to admin dashboard
+                await setUser(userData); // Đảm bảo setUser hoàn thành
+
+                // Kiểm tra role và navigate
+                const hasAdminRole = Array.isArray(userData.roles) && 
+                    userData.roles.some(role => 
+                        typeof role === 'string' && 
+                        role.toLowerCase() === 'admin'
+                    );
+
+                console.log('Role check:', {
+                    roles: userData.roles,
+                    hasAdminRole,
+                    roleTypes: userData.roles?.map(r => typeof r)
+                });
+
+                if (hasAdminRole) {
+                    console.log('Admin user detected, navigating to admin page');
+                    // Sử dụng timeout để đảm bảo state đã được cập nhật
+                    setTimeout(() => {
+                        navigate('/admin', { replace: true });
+                    }, 100);
                 } else {
-                    navigate('/'); // Redirect to home for regular users
+                    console.log('Regular user detected, navigating to home page');
+                    navigate('/', { replace: true });
                 }
             } else {
-                setError(response.message || 'Đăng nhập thất bại');
+                setError(response.message || 'Login failed');
             }
         } catch (error: any) {
             console.error('Login error:', error);
-            setError(error.response?.data?.message || 'Đăng nhập thất bại. Vui lòng thử lại.');
+            setError(error.message || 'Login failed. Please try again.');
         }
     };
+
+    // Kiểm tra nếu user đã đăng nhập và có role admin thì redirect
+    useEffect(() => {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            const userData = JSON.parse(storedUser);
+            if (userData.roles?.includes('admin')) {
+                navigate('/admin', { replace: true });
+            }
+        }
+    }, [navigate]);
 
     return (
         <div className="login-wrapper">

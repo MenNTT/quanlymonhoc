@@ -7,7 +7,7 @@ export const API_ENDPOINTS = {
     AUTH: {
         LOGIN: `${BASE_PATH}/auth/login`,
         REGISTER: `${BASE_PATH}/auth/register`,
-        UPDATE: (id: string) => `${BASE_PATH}/auth/update/${id}`, 
+        UPDATE: (userId: string) => `${BASE_PATH}/auth/profile/${userId}`,
     },
 
     // Account endpoints
@@ -149,6 +149,8 @@ export const API_ENDPOINTS = {
     },
 
 } as const;
+
+console.log('API Login endpoint:', API_ENDPOINTS.AUTH.LOGIN);
 
 // Type for API response
 export interface ApiResponse<T = any> {

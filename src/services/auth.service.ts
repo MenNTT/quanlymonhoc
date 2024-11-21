@@ -1,4 +1,4 @@
-import { AuthResponse, ApiAuthResponse, LoginData, RegisterData } from '../models/user';
+import { User, ApiResponse, LoginResponse, LoginData, RegisterData } from '../models/user';
 import BaseService from './base.service';
 import { cookieService } from './cookie.service';
 import { API_ENDPOINTS } from '../constants/api/api.config';
@@ -8,55 +8,77 @@ class AuthService extends BaseService {
         super();
     }
 
-    async login(loginData: LoginData): Promise<ApiAuthResponse> {
+    async login(loginData: LoginData): Promise<ApiResponse<LoginResponse>> {
         try {
-            const response = await this.post<ApiAuthResponse>(
+            const response = await this.post<LoginResponse>(
                 API_ENDPOINTS.AUTH.LOGIN, 
                 loginData
             );
             
-            if (response.data.success && response.data.data) {
-                const token = response.data.data.token;
-                if (token) {
-                    cookieService.set('authToken', token);
-                }
+            console.log('Raw response from server:', response);
+
+            if (response.status === 200 && response.data?.token) {
+                console.log('Login response data:', {
+                    token: response.data.token,
+                    user: response.data.user,
+                    roles: response.data.user.roles
+                });
+
+                cookieService.set('authToken', response.data.token);
+                return {
+                    success: true,
+                    message: response.data.message,
+                    data: response.data
+                };
             }
-            return response.data;
-        } catch (error) {
-            console.error('Login error:', error);
+
+            return {
+                success: false,
+                message: response.data?.message || 'Login failed'
+            };
+        } catch (error: any) {
+            console.error('Login service error:', error);
             throw error;
         }
     }
 
-    async register(registerData: RegisterData): Promise<ApiAuthResponse> {
+    async register(registerData: RegisterData): Promise<ApiResponse<User>> {
         try {
-            const response = await this.post<ApiAuthResponse>(
+            const response = await this.post<ApiResponse<User>>(
                 API_ENDPOINTS.AUTH.REGISTER, 
                 registerData
             );
-            console.log('Register response:', response);
+            
             return response.data;
-        } catch (error) {
+        } catch (error: any) {
             console.error('Register error:', error);
-            throw error;
+            throw {
+                success: false,
+                message: error.response?.data?.message || 'Đăng ký thất bại'
+            };
         }
     }
 
-    async updateProfile(userId: string, userData: Partial<RegisterData>): Promise<ApiAuthResponse> {
+    async updateProfile(userId: string, userData: Partial<RegisterData>): Promise<ApiResponse<User>> {
         try {
-            const response = await this.put<ApiAuthResponse>(
+            const response = await this.put<ApiResponse<User>>(
                 API_ENDPOINTS.AUTH.UPDATE(userId), 
                 userData
             );
+            
             return response.data;
-        } catch (error) {
+        } catch (error: any) {
             console.error('Update profile error:', error);
-            throw error;
+            throw {
+                success: false,
+                message: error.response?.data?.message || 'Cập nhật thông tin thất bại'
+            };
         }
     }
 
     logout(): void {
         cookieService.remove('authToken');
+        localStorage.removeItem('user');
     }
 
     isAuthenticated(): boolean {
@@ -64,6 +86,5 @@ class AuthService extends BaseService {
     }
 }
 
-// Export instance của AuthService
 const authService = new AuthService();
 export default authService;

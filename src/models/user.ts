@@ -1,12 +1,12 @@
 // mockUsers.ts
 export interface User {
-    id: string;
+    id?: string;
     fullName: string;
     email: string;
     phoneNumber?: string;
     address?: string;
     birthDate?: string;
-    role?: string;
+    roles: string[];
 }
 export interface AuthResponse {
     token: string;
@@ -16,7 +16,26 @@ export interface AuthResponse {
         fullName: string;
         phoneNumber?: string;
         address?: string;
-        role?: string;
+        roles: string[];
+    }
+}
+
+export interface ApiResponse<T> {
+    success?: boolean;
+    message: string;
+    data?: T;
+    error?: string;
+}
+
+export interface LoginResponse {
+    message: string;
+    token: string;
+    user: {
+        email: string;
+        fullName: string;
+        phoneNumber?: string;
+        address?: string;
+        roles: string[];
     }
 }
   
@@ -33,10 +52,4 @@ export interface RegisterData {
     phoneNumber?: string;
     birthDate?: string;
   }
-  
-export interface ApiAuthResponse {
-    success: boolean;
-    message: string;
-    data?: AuthResponse;
-}
   

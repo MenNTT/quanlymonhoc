@@ -31,41 +31,35 @@ const Register: React.FC = () => {
         
         // Validate required fields
         if (!formData.email || !formData.password || !formData.fullName) {
-            setError("Vui lòng điền đầy đủ thông tin bắt buộc");
+            setError("Email, password and fullName are required");
             return;
         }
 
         if (formData.password !== retypePassword) {
-            setError("Mật khẩu nhập lại không khớp");
+            setError("Passwords don't match");
             return;
         }
 
         // Validate email format
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(formData.email)) {
-            setError("Email không hợp lệ");
+            setError("Invalid email format");
             return;
         }
         
         try {
             const response = await authService.register(formData);
-            console.log('Register response:', response);
             
             if (response.success) {
-                navigate('/login');
+                navigate('/login', { 
+                    state: { message: 'Registration successful. Please login.' } 
+                });
             } else {
-                setError(response.message || 'Đăng ký thất bại. Vui lòng thử lại.');
+                setError(response.message || 'Registration failed. Please try again.');
             }
         } catch (error: any) {
             console.error('Register error:', error);
-            
-            if (error.response) {
-                setError(error.response.data?.message || 'Đăng ký thất bại. Vui lòng thử lại.');
-            } else if (error.request) {
-                setError('Không thể kết nối đến server. Vui lòng thử lại sau.');
-            } else {
-                setError('Đã có lỗi xảy ra. Vui lòng thử lại.');
-            }
+            setError(error.message || 'Registration failed. Please try again.');
         }
     };
 
