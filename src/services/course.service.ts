@@ -3,6 +3,16 @@ import { Course } from '../models/Course';
 import { API_ENDPOINTS } from '../constants/api/api.config';
 
 export class CourseService {
+    static async getTotalRevenue(): Promise<number> {
+        const response = await axios.get(API_ENDPOINTS.COURSE.REVENUE);
+        return response.data.totalRevenue;
+    }
+
+    static async getRecentCourses(): Promise<Course[]> {
+        const response = await axios.get(API_ENDPOINTS.COURSE.RECENT);
+        return response.data;
+    }
+
     static async getAllCourses(): Promise<Course[]> {
         try {
             const response = await axios.get(API_ENDPOINTS.COURSE.GET_ALL);

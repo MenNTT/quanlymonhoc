@@ -6,6 +6,7 @@ export interface User {
     phoneNumber?: string;
     address?: string;
     birthDate?: string;
+    role?: string;
 }
 export interface AuthResponse {
     token: string;
@@ -15,6 +16,7 @@ export interface AuthResponse {
         fullName: string;
         phoneNumber?: string;
         address?: string;
+        role?: string;
     }
 }
   

@@ -3,10 +3,12 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import SchoolIcon from '@mui/icons-material/School';
 import PeopleIcon from '@mui/icons-material/People';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const Sidebar = () => {
   const menuItems = [
-    { title: 'Bảng điều khiển', icon: <DashboardIcon />, path: '/admin' },
+    { title: 'Trang Chính', icon: <DashboardIcon />, path: '/admin' },
+    { title: 'Thông tin admin', icon: <AccountCircleIcon />, path: '/admin/profile' },
     { title: 'Khóa học', icon: <SchoolIcon />, path: '/admin/courses' },
     { title: 'Người dùng', icon: <PeopleIcon />, path: '/admin/users' },
     { title: 'Doanh thu', icon: <MonetizationOnIcon />, path: '/admin/revenue' },

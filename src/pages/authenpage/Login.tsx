@@ -16,7 +16,7 @@ const Login: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError(null);
-
+    
         try {
             const response = await authService.login({ email: email.trim(), password });
             if (response.success && response.data) {
@@ -24,11 +24,16 @@ const Login: React.FC = () => {
                     ...response.data.user,
                     token: response.data.token
                 };
-                // Lưu user data vào localStorage
+                // Save user data to localStorage
                 localStorage.setItem('user', JSON.stringify(userData));
-                // Cập nhật context
+                // Update context
                 setUser(userData);
-                navigate('/');
+                // Redirect based on role
+                if (userData.role === 'admin') {
+                    navigate('/admin'); // Redirect to admin dashboard
+                } else {
+                    navigate('/'); // Redirect to home for regular users
+                }
             } else {
                 setError(response.message || 'Đăng nhập thất bại');
             }

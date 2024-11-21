@@ -17,6 +17,7 @@ export const API_ENDPOINTS = {
         CREATE: `${BASE_PATH}/account/create`,
         UPDATE: `${BASE_PATH}/account/update`,
         DELETE: (id: string | number) => `${BASE_PATH}/account/delete/${id}`,
+        GET_RECENT: `${BASE_PATH}/account/getRecent`,
     },
 
     // Course endpoints
@@ -26,6 +27,8 @@ export const API_ENDPOINTS = {
         CREATE: `${BASE_PATH}/course/create`,
         UPDATE: `${BASE_PATH}/course/update`,
         DELETE: (id: string | number) => `${BASE_PATH}/course/delete/${id}`,
+        REVENUE: `${BASE_PATH}/course/revenue`,
+        RECENT: `${BASE_PATH}/course/recent`,
     },
 
     // Lesson endpoints

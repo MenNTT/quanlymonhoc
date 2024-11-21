@@ -13,27 +13,28 @@ import ClassroomActivities from "../components/classpage/ClassroomActivities.tsx
 import OnlineClassroom from "../pages/onlineclassroom/OnlineClassroom.tsx";
 import Cart from "../pages/CartPage/Cart.tsx";
 import PaymentGuide from "../pages/PaymentGuidePage/PaymentGuide.tsx";
-import CoursesPage from "../pages/CoursesPage/CoursesPage.tsx";
-import Dashboard from "../pages/admin/Dashboard";
+import Home from "../pages/admin/Home.tsx";
+import Courses from "../pages/admin/Courses.tsx";
+import Users from "../pages/admin/Users.tsx";
+import Revenue from "../pages/admin/Revenue.tsx";
+import Profile from "../pages/admin/Profile.tsx";
+import AddCourse from '../pages/admin/AddCourse.tsx';
+import EditCourse from '../pages/admin/EditCourse.tsx';
+import ManageInstructors from '../pages/admin/ManageInstructors.tsx';
+import ManageCategories from '../pages/admin/ManageCategories.tsx';
 
 const RouteComponent: React.FC = () => {
-    // Lấy thông tin về đường dẫn hiện tại
     const location = useLocation();
     console.log(location);
 
-    // Mảng chứa các đường dẫn cần ẩn Header, Navbar và Footer
     const hiddenRoutes: string[] = [
         "/login",
         "/register",
         "/class-activity",
         "/online-classroom",
         "/admin",
-        "/admin/courses",
-        "/admin/users",
-        "/admin/revenue"
-    ]; // Thêm các đường dẫn khác nếu cần
+    ];
 
-    // Kiểm tra xem có phải là admin route không
     const isAdminRoute = location.pathname.startsWith('/admin');
     const hideHeaderFooter: boolean = hiddenRoutes.includes(location.pathname) || isAdminRoute;
 
@@ -42,7 +43,7 @@ const RouteComponent: React.FC = () => {
             {!hideHeaderFooter && <Header />}
             <Routes>
                 <Route path="/" element={<HomePage />} />
-                <Route path="/courses" element={<CoursesPage />} />
+                <Route path="/courses" element={<Courses />} />
                 <Route path="/course-detail/:id_course" element={<CourseDetail />} />
                 <Route path='/profile' element={<ProfileContainer />} />
                 <Route path='/payment' element={<Payment />} />
@@ -54,10 +55,15 @@ const RouteComponent: React.FC = () => {
                 <Route path='/payment-guide' element={<PaymentGuide />} />
 
                 {/* Admin routes */}
-                <Route path="/admin" element={<Dashboard />} />
-                <Route path="/admin/courses" element={<Dashboard />} />
-                <Route path="/admin/users" element={<Dashboard />} />
-                <Route path="/admin/revenue" element={<Dashboard />} />
+                <Route path="/admin" element={<Home />} />
+                <Route path="/admin/users" element={<Users />} />
+                <Route path="/admin/courses" element={<Courses />} />
+                <Route path="/admin/revenue" element={<Revenue />} />
+                <Route path="/admin/profile" element={<Profile />} />
+                <Route path="/admin/add-course" element={<AddCourse />} />
+                <Route path="/admin/edit-course/:id" element={<EditCourse />} />
+                <Route path="/admin/manage-instructors" element={<ManageInstructors />} />
+                <Route path="/admin/manage-categories" element={<ManageCategories />} />
             </Routes>
             {!hideHeaderFooter && <Footer />}
         </>
