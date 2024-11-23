@@ -23,6 +23,8 @@ import EditCourse from '../pages/admin/EditCourse.tsx';
 import ManageInstructors from '../pages/admin/ManageInstructors.tsx';
 import ManageCategories from '../pages/admin/ManageCategories.tsx';
 import ProtectedRoute from './ProtectedRoute';
+import About from "../components/pages/About.tsx";
+import News from "../components/pages/News.tsx";
 
 const RouteComponent: React.FC = () => {
     const location = useLocation();
@@ -49,6 +51,9 @@ const RouteComponent: React.FC = () => {
                 <Route path='/register' element={<Register />} />
                 <Route path="/course-detail/:id_course" element={<CourseDetail />} />
                 <Route path='/payment-guide' element={<PaymentGuide />} />
+                <Route path='/about' element={<About />} />
+                <Route path='/news' element={<News />} />
+                
 
                 {/* Protected user routes */}
                 <Route path='/profile' element={
