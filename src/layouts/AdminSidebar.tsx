@@ -5,7 +5,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-const Sidebar = () => {
+const AdminSidebar = () => {
   const menuItems = [
     { title: 'Trang Chính', icon: <DashboardIcon />, path: '/admin' },
     { title: 'Thông tin admin', icon: <AccountCircleIcon />, path: '/admin/profile' },
@@ -15,8 +15,8 @@ const Sidebar = () => {
   ];
 
   return (
-    <aside className="w-64 bg-gray-800 p-6 shadow-xl">
-      <h1 className="text-2xl font-bold mb-8 text-white">ITLearn Admin</h1>
+    <aside className="w-64 bg-white-800 p-6 shadow-xl">
+      
       <nav className="space-y-2">
         {menuItems.map((item) => (
           <NavLink
@@ -35,4 +35,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar; 
+export default AdminSidebar; 

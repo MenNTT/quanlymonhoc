@@ -29,6 +29,7 @@ export const API_ENDPOINTS = {
         DELETE: (id: string | number) => `${BASE_PATH}/course/delete/${id}`,
         REVENUE: `${BASE_PATH}/course/revenue`,
         RECENT: `${BASE_PATH}/course/recent`,
+        ENROLL: `${BASE_PATH}/course/enroll`,
     },
 
     // Lesson endpoints

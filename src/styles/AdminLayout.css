@@ -1,0 +1,36 @@
+.admin-layout {
+    min-height: 100vh;
+    background: #ffffff;
+}
+
+.admin-container {
+    display: flex;
+    min-height: calc(100vh - 64px);
+    margin-top: 64px;
+}
+
+.admin-main {
+    flex: 1;
+    padding: 16px;
+    margin-left: 20px;
+    background: #ffffff;
+}
+
+.admin-content {
+    background: #ffffff;
+    color: #000000;
+}
+
+.page-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #000000;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+    .admin-main {
+        margin-left: 0;
+        padding: 1rem;
+    }
+} 

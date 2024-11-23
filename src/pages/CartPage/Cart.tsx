@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { CourseItem, useCart } from '../../contexts/CartContext';
 import '../../styles/Cart.css';
 import { RECOMMENDED_COURSES } from '../../contexts/CartContext';
+import { CartService } from '../../services/cart.service';
 
 const Cart: React.FC = () => {
     const { cartItems, removeFromCart, totalAmount } = useCart();
@@ -10,6 +11,7 @@ const Cart: React.FC = () => {
     const [appliedCoupon, setAppliedCoupon] = useState('KEEPLEARNING');
     const [isLoading, setIsLoading] = useState(true);
     const [isProcessing, setIsProcessing] = useState(false);
+    const [isMovingToWishlist, setIsMovingToWishlist] = useState<number | null>(null);
 
     useEffect(() => {
         // Giả lập loading
@@ -53,6 +55,20 @@ const Cart: React.FC = () => {
         }
     };
 
+    const handleMoveToWishlist = async (courseId: number) => {
+        try {
+            setIsMovingToWishlist(courseId);
+            await CartService.addToWishlist(courseId.toString());
+            removeFromCart(courseId); // Xóa khỏi giỏ hàng sau khi thêm vào wishlist
+            alert('Đã thêm khóa học vào danh sách yêu thích');
+        } catch (error) {
+            console.error('Error moving to wishlist:', error);
+            alert('Có lỗi xảy ra khi thêm vào danh sách yêu thích');
+        } finally {
+            setIsMovingToWishlist(null);
+        }
+    };
+
     // Cập nhật giao diện cart item
     const CartItem: React.FC<{ item: CourseItem; onRemove: (id: number) => void }> = ({ item, onRemove }) => (
         <div className="cart-item">
@@ -80,8 +96,13 @@ const Cart: React.FC = () => {
                     <button className="action-link" onClick={() => onRemove(item.id)}>
                         Xóa
                     </button>
-                    <button className="action-link">Lưu để mua sau</button>
-                    <button className="action-link">Chuyển vào danh sách mong ước</button>
+                    <button 
+                        className="action-link"
+                        onClick={() => handleMoveToWishlist(item.id)}
+                        disabled={isMovingToWishlist === item.id}
+                    >
+                        {isMovingToWishlist === item.id ? 'Đang xử lý...' : 'Chuyển vào danh sách yêu thích'}
+                    </button>
                 </div>
                 <div className="item-price">₫{item.price.toLocaleString()}</div>
             </div>

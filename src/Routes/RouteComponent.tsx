@@ -25,14 +25,10 @@ import ManageCategories from '../pages/admin/ManageCategories.tsx';
 import About from '../pages/aboutnews/About.tsx'
 import New from '../pages/aboutnews/News.tsx'
 import ProtectedRoute from './ProtectedRoute';
-<<<<<<< HEAD
-import About from "../components/pages/About.tsx";
-import News from "../components/pages/News.tsx";
-=======
 import InstructorDashboard from '../pages/instructor/InstructorDashboard.tsx';
 import InstructorCourses from "../pages/instructor/InstructorCourse.tsx";
->>>>>>> ee75c25dcaa5462aafd60b282856111e7cb40c15
-
+import CoursesPage from "../pages/CoursesPage/CoursesPage.tsx";
+import AdminCourseDetail from "../pages/admin/CourseDetail";
 const RouteComponent: React.FC = () => {
     const location = useLocation();
     console.log('Current location:', location);
@@ -58,15 +54,13 @@ const RouteComponent: React.FC = () => {
                 <Route path='/register' element={<Register />} />
                 <Route path="/course-detail/:id_course" element={<CourseDetail />} />
                 <Route path='/payment-guide' element={<PaymentGuide />} />
-<<<<<<< HEAD
                 <Route path='/about' element={<About />} />
-                <Route path='/news' element={<News />} />
+                <Route path='/news' element={<New />} />
+                <Route path='/courses' element={<CoursesPage />} />
                 
 
-=======
                 
                 
->>>>>>> ee75c25dcaa5462aafd60b282856111e7cb40c15
                 {/* Protected user routes */}
                 <Route path='/profile' element={
                     <ProtectedRoute>
@@ -119,6 +113,22 @@ const RouteComponent: React.FC = () => {
                         </ProtectedRoute>
                     } 
                 />
+                 <Route 
+                    path="/admin/courses/:id_course" 
+                    element={
+                        <ProtectedRoute requiredRole="admin">
+                            <AdminCourseDetail />
+                        </ProtectedRoute>
+                    } 
+                />
+                <Route 
+                    path="/admin/courses/edit/:id_course" 
+                    element={
+                        <ProtectedRoute requiredRole="admin">
+                            <EditCourse />
+                        </ProtectedRoute>
+                    } 
+                />
                 <Route 
                     path="/admin/revenue" 
                     element={
@@ -144,14 +154,6 @@ const RouteComponent: React.FC = () => {
                     } 
                 />
                 <Route 
-                    path="/admin/edit-course/:id" 
-                    element={
-                        <ProtectedRoute requiredRole="admin">
-                            <EditCourse />
-                        </ProtectedRoute>
-                    } 
-                />
-                <Route 
                     path="/admin/manage-instructors" 
                     element={
                         <ProtectedRoute requiredRole="admin">
@@ -169,6 +171,14 @@ const RouteComponent: React.FC = () => {
                 />
                 <Route path="/instructor/dashboard" element={<InstructorDashboard />} />
                 <Route path="/instructor/courses" element={<InstructorCourses />} />
+                <Route 
+                    path="/admin/courses/:id_course" 
+                    element={
+                        <ProtectedRoute requiredRole="admin">
+                            <AdminCourseDetail />
+                        </ProtectedRoute>
+                    } 
+                />
             </Routes>
             {!hideHeaderFooter && <Footer />}
         </>

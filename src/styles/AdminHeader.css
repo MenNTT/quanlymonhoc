@@ -1,0 +1,48 @@
+.admin-header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 64px;
+    background: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
+    z-index: 1000;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.header-right {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.header-icon-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.header-icon-btn:hover {
+    background-color: #f3f4f6;
+}
+
+.header-icon {
+    width: 20px;
+    height: 20px;
+    color: #6b7280;
+} 

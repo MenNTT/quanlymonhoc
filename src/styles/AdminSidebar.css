@@ -1,0 +1,58 @@
+.admin-sidebar {
+    width: 240px;
+    background: #ffffff;
+    height: 100vh;
+    position: fixed;
+    top: 64px;
+    left: 0;
+    padding: 12px;
+    border-right: 1px solid #e5e7eb;
+    overflow-y: auto;
+}
+
+.sidebar-section {
+    margin-bottom: 16px;
+}
+
+.section-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #000000;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0 12px;
+    margin-bottom: 8px;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    color: #000000;
+    text-decoration: none;
+    border-radius: 8px;
+    margin-bottom: 4px;
+    transition: all 0.2s;
+}
+
+.sidebar-link:hover {
+    background: #f8f9fa;
+}
+
+.sidebar-link.active {
+    background: #f8f9fa;
+    color: #000000;
+    font-weight: 600;
+}
+
+.item-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+    color: #000000;
+}
+
+.item-title {
+    font-size: 14px;
+    font-weight: 500;
+} 

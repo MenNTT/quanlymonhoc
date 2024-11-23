@@ -323,4 +323,23 @@
     color: #ed4337;
     font-size: 12px;
     margin-top: 4px;
+}
+
+.action-link:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.action-link {
+    background: none;
+    border: none;
+    color: #1e88e5;
+    cursor: pointer;
+    padding: 4px 8px;
+    font-size: 14px;
+    text-decoration: underline;
+}
+
+.action-link:hover:not(:disabled) {
+    color: #1565c0;
 } 

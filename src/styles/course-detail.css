@@ -1,95 +1,66 @@
-/* Thêm hiệu ứng hover cho các nút */
-.card .btn {
+/* Reset và base styles */
+body {
+    background-color: #f8f9fa;
+}
+
+/* Card styles */
+.card {
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Button styles */
+button {
     transition: all 0.3s ease;
 }
 
-.card .btn:hover {
+button:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 2px 8px rgba(240, 239, 239, 0.923);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.card .btn-success {
-    background-color: #28a745;
-    border-color: #28a745;
+button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
 }
 
-.card .btn-success:hover {
-    background-color: #218838;
-    border-color: #1e7e34;
+/* Tab styles */
+.tab-trigger {
+    font-weight: 500;
+    transition: all 0.3s ease;
 }
 
-/* Animation khi thêm vào giỏ hàng */
-@keyframes addToCart {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.2);
-    }
-    100% {
-        transform: scale(1);
-    }
+.tab-trigger:hover {
+    transform: translateY(-1px);
 }
 
-.card .btn-success:active i {
-    animation: addToCart 0.3s ease;
+/* Sticky sidebar */
+.sticky {
+    position: sticky;
+    top: 1rem;
 }
 
-/* Điều chỉnh style cho nav-tabs */
-.nav-tabs .nav-link {
-    color: #dbdbe3 !important;
-    background-color: white !important;
-    border-color: #e0e0e0 !important;
-    border-radius: 20px !important;
-    margin: 0 5px;
-    padding: 6px 16px !important;
-    transition: all 0.3s ease !important;
+/* Spacing utilities */
+.space-y-4 > * + * {
+    margin-top: 1rem;
 }
 
-.nav-tabs .nav-link.active {
-    background-color: #1a237e !important;
-    border-color: #1a237e !important;
-    color: white !important;
-    box-shadow: 0 4px 15px rgba(26, 35, 126, 0.3) !important;
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
 }
 
-.nav-tabs .nav-link:hover:not(.active) {
-    background-color: #f8f9fa !important;
-    transform: translateY(-2px);
-    box-shadow: 0 2px 8px rgba(26, 35, 126, 0.1) !important;
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
 }
 
-/* Điều chỉnh style cho các button */
-.btn-primary {
-    color: #ffffff !important;
-    background-color: #eaebf5 !important;
-    border-color: #e1e2ed !important;
-    border-radius: 20px !important;
-    transition: all 0.3s ease !important;
-    font-weight: 500 !important;
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
 }
 
-.btn-primary:hover {
-    background-color: #f5f6fa !important;
-    border-color: #ecedf7 !important;
-    color: #ffffff !important;
-    box-shadow: 0 4px 15px rgba(26, 35, 126, 0.3) !important;
-    transform: translateY(-2px);
+::-webkit-scrollbar-thumb:hover {
+    background: #666;
 }
-
-.btn-success {
-    color: #ffffff !important;
-    background-color: #1a237e !important;
-    border-color: #1a237e !important;
-    border-radius: 20px !important;
-    transition: all 0.3s ease !important;
-    font-weight: 500 !important;
-}
-
-.btn-success:hover {
-    background-color: #283593 !important;
-    border-color: #283593 !important;
-    color: #ffffff !important;
-    box-shadow: 0 4px 15px rgba(26, 35, 126, 0.3) !important;
-    transform: translateY(-2px);
-} 
+ 
