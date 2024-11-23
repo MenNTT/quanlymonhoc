@@ -22,9 +22,16 @@ import AddCourse from '../pages/admin/AddCourse.tsx';
 import EditCourse from '../pages/admin/EditCourse.tsx';
 import ManageInstructors from '../pages/admin/ManageInstructors.tsx';
 import ManageCategories from '../pages/admin/ManageCategories.tsx';
+import About from '../pages/aboutnews/About.tsx'
+import New from '../pages/aboutnews/News.tsx'
 import ProtectedRoute from './ProtectedRoute';
+<<<<<<< HEAD
 import About from "../components/pages/About.tsx";
 import News from "../components/pages/News.tsx";
+=======
+import InstructorDashboard from '../pages/instructor/InstructorDashboard.tsx';
+import InstructorCourses from "../pages/instructor/InstructorCourse.tsx";
+>>>>>>> ee75c25dcaa5462aafd60b282856111e7cb40c15
 
 const RouteComponent: React.FC = () => {
     const location = useLocation();
@@ -51,10 +58,15 @@ const RouteComponent: React.FC = () => {
                 <Route path='/register' element={<Register />} />
                 <Route path="/course-detail/:id_course" element={<CourseDetail />} />
                 <Route path='/payment-guide' element={<PaymentGuide />} />
+<<<<<<< HEAD
                 <Route path='/about' element={<About />} />
                 <Route path='/news' element={<News />} />
                 
 
+=======
+                
+                
+>>>>>>> ee75c25dcaa5462aafd60b282856111e7cb40c15
                 {/* Protected user routes */}
                 <Route path='/profile' element={
                     <ProtectedRoute>
@@ -155,6 +167,8 @@ const RouteComponent: React.FC = () => {
                         </ProtectedRoute>
                     } 
                 />
+                <Route path="/instructor/dashboard" element={<InstructorDashboard />} />
+                <Route path="/instructor/courses" element={<InstructorCourses />} />
             </Routes>
             {!hideHeaderFooter && <Footer />}
         </>
