@@ -4,6 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { CourseService } from '../../services/course.service';
 
 const AddCourse = () => {
+    
+    console.log("aaa")
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         name: '',
@@ -24,12 +26,12 @@ const AddCourse = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const courseData = {
+            const courseRequest = {
                 ...formData,
                 feeAmount: parseFloat(formData.feeAmount)
             };
             
-            await CourseService.createCourse(courseData);
+            await CourseService.createCourse(courseRequest);
             navigate('/admin/courses');
         } catch (error) {
             setError('Có lỗi xảy ra khi tạo khóa học');

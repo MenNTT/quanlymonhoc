@@ -13,6 +13,7 @@ const App: React.FC = () => {
                 <UserProvider>
                 <BrowserRouter>
                     <RouteComponent />
+                    {/* File này khum chỉnh gì cả nhen diuu ơiii, thêm trang mới thì vào Route/RouteComponent.tsx nhen */}
                 </BrowserRouter>
                 </UserProvider>
             </CartProvider>

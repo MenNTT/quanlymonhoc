@@ -44,3 +44,34 @@ sư
 .active .MuiSvgIcon-root {
   @apply text-white;
 }
+
+/* Common breakpoints */
+:root {
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+}
+
+/* Common responsive utilities */
+@media (max-width: 576px) {
+  .hide-sm {
+    display: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .hide-md {
+    display: none !important;
+  }
+  
+  .container {
+    padding: 0 15px;
+  }
+}
+
+@media (max-width: 992px) {
+  .hide-lg {
+    display: none !important;
+  }
+}

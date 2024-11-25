@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import '../../../styles/Header.css';
 import { useAuth } from '../../../contexts/AuthContext';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { useCart } from '../../../contexts/CartContext';
 import UserDropdown from './UserDropdown';
 import { cookieService } from '../../../services/cookie.service';
 
 const Header: React.FC = () => {
-    const { isAuthenticated, logout } = useAuth();
+    const { isAuthenticated } = useAuth();
     const { cartCount } = useCart();
     const [showDropdown, setShowDropdown] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     useEffect(() => {
         const checkLoginStatus = () => {
@@ -20,14 +21,14 @@ const Header: React.FC = () => {
         };
 
         checkLoginStatus();
-        if (!isLoggedIn) {
-            setShowDropdown(false);
-        }
     }, [isAuthenticated]);
 
-    const handleLogoutAndClose = () => {
+    const handleCloseDropdown = () => {
         setShowDropdown(false);
-        setIsLoggedIn(false);
+    };
+
+    const toggleDropdown = () => {
+        setShowDropdown(prev => !prev);
     };
 
     return (
@@ -41,12 +42,48 @@ const Header: React.FC = () => {
                         </Link>
                     </div>
                     
-                    <nav className="header-nav">
-                        <Link to="/" className="nav-link">Trang chủ</Link>
-                        <Link to="/about" className="nav-link">Giới thiệu</Link>
-                        <Link to="/courses" className="nav-link">Khoá học</Link>
-                        <Link to="/search" className="nav-link">Tra cứu</Link>
-                        <Link to="/news" className="nav-link">Tin tức</Link>
+                    <nav className={`header-nav ${isMenuOpen ? 'show' : ''}`}>
+                        <NavLink 
+                            to="/" 
+                            className={({ isActive }) => 
+                                isActive ? "nav-link active" : "nav-link"
+                            }
+                            end
+                        >
+                            Trang chủ
+                        </NavLink>
+                        <NavLink 
+                            to="/about" 
+                            className={({ isActive }) => 
+                                isActive ? "nav-link active" : "nav-link"
+                            }
+                        >
+                            Giới thiệu
+                        </NavLink>
+                        <NavLink 
+                            to="/courses" 
+                            className={({ isActive }) => 
+                                isActive ? "nav-link active" : "nav-link"
+                            }
+                        >
+                            Khoá học
+                        </NavLink>
+                        <NavLink 
+                            to="/search" 
+                            className={({ isActive }) => 
+                                isActive ? "nav-link active" : "nav-link"
+                            }
+                        >
+                            Tra cứu
+                        </NavLink>
+                        <NavLink 
+                            to="/news" 
+                            className={({ isActive }) => 
+                                isActive ? "nav-link active" : "nav-link"
+                            }
+                        >
+                            Tin tức
+                        </NavLink>
                     </nav>
                 </div>
 
@@ -74,14 +111,14 @@ const Header: React.FC = () => {
                         <div className="user-menu-container">
                             <div 
                                 className="user-icon"
-                                onClick={() => setShowDropdown(!showDropdown)}
+                                onClick={toggleDropdown}
                             >
                                 <i className="fas fa-user-circle"></i>
                             </div>
                             {showDropdown && (
                                 <UserDropdown 
                                     isOpen={showDropdown} 
-                                    onClose={handleLogoutAndClose}
+                                    onClose={handleCloseDropdown}
                                 />
                             )}
                         </div>
@@ -92,6 +129,12 @@ const Header: React.FC = () => {
                     )}
                 </div>
             </div>
+            <button 
+                className="menu-toggle hide-lg-up"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+                <i className={`fas fa-${isMenuOpen ? 'times' : 'bars'}`} />
+            </button>
         </header>
     );
 };

@@ -183,7 +183,7 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ isAdminView = false }) => {
                                     Thêm vào yêu thích
                                 </button>
                                 {isAdminView && (
-                                    <Link to={`/edit-course/${id_course}`} className="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 px-4 rounded-lg transition-all flex items-center justify-center">
+                                    <Link to={`/admin/courses/edit/${id_course}`} className="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 px-4 rounded-lg transition-all flex items-center justify-center">
                                         <FaEdit className="mr-2 h-4 w-4" />
                                         Chỉnh sửa khóa học
                                     </Link>

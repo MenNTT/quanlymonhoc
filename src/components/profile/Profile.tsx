@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import axios from 'axios';
-import { BASE_URL, API_ENDPOINTS } from '../../constants/api/api.config';
 import { useNavigate } from 'react-router-dom';
-import { cookieService } from '../../services/cookie.service';
+import authService from '../../services/auth.service';
+
+interface User {
+    id: string;
+    email: string;
+    fullName: string;
+    phoneNumber?: string;
+    address?: string;
+    birthDate?: string;
+    roles: string[];
+}
 
 interface UserProfile {
     id: string;
     email: string;
     fullName: string;
-    phoneNumber: string | null;
-    address: string | null;
-    birthDate: string | null;
-}
-
-interface ProfileApiResponse {
-    success: boolean;
-    message: string;
-    data?: UserProfile;
+    phoneNumber?: string;
+    address?: string;
+    birthDate?: string;
 }
 
 const Profile: React.FC = () => {
@@ -53,10 +55,51 @@ const Profile: React.FC = () => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
+        
+        if (name === 'phoneNumber') {
+            const phoneRegex = /^[0-9+]*$/;
+            if (value && !phoneRegex.test(value)) {
+                return;
+            }
+        }
+
         setFormData(prev => ({
             ...prev,
             [name]: value
         }));
+    };
+
+    const validateForm = (): boolean => {
+        if (!formData.fullName?.trim()) {
+            setError('Vui lòng nhập họ và tên');
+            return false;
+        }
+
+        if (formData.phoneNumber?.trim()) {
+            const phoneRegex = /^(\+84|84|0)[0-9]{9}$/;
+            if (!phoneRegex.test(formData.phoneNumber.trim())) {
+                setError('Số điện thoại không hợp lệ');
+                return false;
+            }
+        }
+
+        if (formData.birthDate) {
+            const birthDate = new Date(formData.birthDate);
+            const today = new Date();
+            const minDate = new Date(today.getFullYear() - 100, today.getMonth(), today.getDate());
+            
+            if (birthDate > today) {
+                setError('Ngày sinh không thể là ngày trong tương lai');
+                return false;
+            }
+            
+            if (birthDate < minDate) {
+                setError('Ngày sinh không hợp lệ');
+                return false;
+            }
+        }
+
+        return true;
     };
 
     const handleEditToggle = () => {
@@ -78,53 +121,37 @@ const Profile: React.FC = () => {
 
     const handleSave = async () => {
         try {
-            const token = cookieService.get('authToken');
-            if (!token || !user?.id) {
+            setError(null);
+            setSuccess(null);
+
+            if (!validateForm()) {
+                return;
+            }
+
+            if (!user?.id) {
                 setError('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
                 navigate('/login');
                 return;
             }
 
-            if (!formData.fullName?.trim()) {
-                setError('Vui lòng nhập họ và tên');
-                return;
-            }
+            const formattedData = {
+                fullName: formData.fullName.trim(),
+                phoneNumber: formData.phoneNumber?.trim() || undefined,
+                address: formData.address?.trim() || undefined,
+                birthDate: formData.birthDate || undefined
+            };
 
-            const updateUrl = `${BASE_URL}${API_ENDPOINTS.AUTH.UPDATE(user.id)}`;
-            console.log('Update URL:', updateUrl);
+            const response = await authService.updateProfile(user.id, formattedData);
 
-            console.log('Request data:', {
-                userId: user.id,
-                formData: {
-                    fullName: formData.fullName.trim(),
-                    phoneNumber: formData.phoneNumber?.trim() || null,
-                    address: formData.address?.trim() || null,
-                    birthDate: formData.birthDate || null
-                }
-            });
-
-            const response = await axios.put<ProfileApiResponse>(
-                updateUrl,
-                {
-                    fullName: formData.fullName.trim(),
-                    phoneNumber: formData.phoneNumber?.trim() || null,
-                    address: formData.address?.trim() || null,
-                    birthDate: formData.birthDate || null
-                },
-                {
-                    headers: {
-                        'Authorization': token,
-                        'Content-Type': 'application/json'
-                    }
-                }
-            );
-
-            console.log('Response:', response.data);
-
-            if (response.data.success && response.data.data) {
-                const updatedUser = {
-                    ...user,
-                    ...response.data.data
+            if (response.success && response.data) {
+                const updatedUser: User = {
+                    id: user.id,
+                    email: user.email,
+                    roles: user.roles,
+                    fullName: response.data.fullName,
+                    phoneNumber: response.data.phoneNumber,
+                    address: response.data.address,
+                    birthDate: response.data.birthDate
                 };
                 setUser(updatedUser);
                 localStorage.setItem('user', JSON.stringify(updatedUser));
@@ -132,41 +159,18 @@ const Profile: React.FC = () => {
                 setIsEditing(false);
                 setError(null);
             } else {
-                setError(response.data.message || 'Có lỗi xảy ra khi cập nhật thông tin');
+                setError(response.message || 'Có lỗi xảy ra khi cập nhật thông tin');
             }
         } catch (error: any) {
             console.error('Update profile error:', error);
-            console.error('Error response:', error.response?.data);
             
-            if (error.response) {
-                switch (error.response.status) {
-                    case 401:
-                        setError('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
-                        cookieService.remove('authToken');
-                        localStorage.removeItem('user');
-                        setUser(null);
-                        navigate('/login');
-                        break;
-                    case 403:
-                        setError('Phiên đăng nhập đã hết hạn hoặc không có quyền. Vui lòng đăng nhập lại.');
-                        cookieService.remove('authToken');
-                        localStorage.removeItem('user');
-                        setUser(null);
-                        navigate('/login');
-                        break;
-                    case 404:
-                        setError('Không tìm thấy thông tin người dùng');
-                        break;
-                    case 400:
-                        setError(error.response.data.message || 'Dữ liệu không hợp lệ');
-                        break;
-                    default:
-                        setError('Có lỗi xảy ra khi cập nhật thông tin');
-                }
-            } else if (error.request) {
-                setError('Không thể kết nối đến server. Vui lòng thử lại sau.');
+            if (error.response?.status === 401 || error.response?.status === 403) {
+                setError('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
+                authService.logout();
+                setUser(null);
+                navigate('/login');
             } else {
-                setError(`Lỗi: ${error.message}`);
+                setError(error.message || 'Có lỗi xảy ra khi cập nhật thông tin');
             }
         }
     };

@@ -184,3 +184,318 @@
     font-size: 0.875rem;
     border-radius: 0.2rem;
 }
+
+.course-section {
+    background-color: #f8f9fa;
+    padding: 40px 0;
+}
+
+.section-title {
+    font-size: 2rem;
+    color: #2c3e50;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.title-underline {
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(135deg, var(--primary-color), var(--hover-color));
+    margin: 15px auto 0;
+    border-radius: 2px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.course-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.course-image-wrapper {
+    position: relative;
+    padding-top: 50%;
+}
+
+.course-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.course-content {
+    padding: 15px;
+}
+
+.course-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    height: 2.4em;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.course-description {
+    color: #666;
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+    height: 3.6em;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.course-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.course-price {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.course-actions {
+    text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .course-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
+    .section-title {
+        font-size: 1.75rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .course-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Thêm styles mới cho grid cố định 3 cột */
+.course-grid-fixed {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+/* Cập nhật responsive cho grid cố định */
+@media (max-width: 992px) {
+    .course-grid-fixed {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 576px) {
+    .course-grid-fixed {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Cập nhật card styles */
+.course-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%; /* Đảm bảo các card có chiều cao bằng nhau */
+    display: flex;
+    flex-direction: column;
+}
+
+.course-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.course-actions {
+    margin-top: auto; /* Đẩy nút xuống cuối card */
+    padding-top: 15px;
+}
+
+/* Điều chỉnh padding và margin */
+.course-section {
+    background-color: #f8f9fa;
+    padding: 60px 0;
+}
+
+.section-title {
+    margin-bottom: 40px;
+}
+
+.course-image-wrapper {
+    padding-top: 60%;
+}
+
+/* Cập nhật hiệu ứng hover */
+.course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.course-card:hover .course-image {
+    transform: scale(1.05);
+}
+
+.course-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin: 20px 0;
+}
+
+.course-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    height: 100%; /* Đảm bảo các card có chiều cao bằng nhau */
+    display: flex;
+    flex-direction: column;
+}
+
+.course-card a {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.course-image-wrapper {
+    position: relative;
+    padding-top: 45%; /* Giảm chiều cao ảnh để có thêm không gian cho text */
+    overflow: hidden;
+}
+
+.course-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.course-content {
+    padding: 16px 20px; /* Tăng padding */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.course-title {
+    font-size: 1.1rem; /* Tăng kích thước font */
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #333;
+    line-height: 1.5;
+    min-height: 3em; /* Đảm bảo có đủ chỗ cho 2 dòng */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.course-date {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: auto; /* Đẩy ngày xuống dưới */
+}
+
+.admin-actions {
+    display: flex;
+    gap: 12px;
+    padding: 8px 20px 16px;
+    border-top: 1px solid #eee;
+}
+
+.admin-actions a,
+.admin-actions button {
+    color: #666;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    transition: color 0.2s ease;
+}
+
+.admin-actions a:hover {
+    color: #0066cc;
+}
+
+.admin-actions button:hover {
+    color: #dc3545;
+}
+
+/* Hover effects */
+.course-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .course-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 576px) {
+    .course-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .course-title {
+        min-height: auto; /* Trên mobile không cần giới hạn chiều cao */
+    }
+}

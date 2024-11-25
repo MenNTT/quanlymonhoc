@@ -29,6 +29,7 @@ import InstructorDashboard from '../pages/instructor/InstructorDashboard.tsx';
 import InstructorCourses from "../pages/instructor/InstructorCourse.tsx";
 import CoursesPage from "../pages/CoursesPage/CoursesPage.tsx";
 import AdminCourseDetail from "../pages/admin/CourseDetail";
+import Lookup from "../pages/aboutnews/Lockup.tsx";
 const RouteComponent: React.FC = () => {
     const location = useLocation();
     console.log('Current location:', location);
@@ -56,6 +57,7 @@ const RouteComponent: React.FC = () => {
                 <Route path='/payment-guide' element={<PaymentGuide />} />
                 <Route path='/about' element={<About />} />
                 <Route path='/news' element={<New />} />
+                <Route path='/search' element={<Lookup />} />
                 <Route path='/courses' element={<CoursesPage />} />
                 
 
