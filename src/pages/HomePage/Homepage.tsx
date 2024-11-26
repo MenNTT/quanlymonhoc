@@ -8,7 +8,7 @@ import '../../styles/Homepage.css';
 
 const HomePage: React.FC = () => {
     return (
-        <div>
+        <div className="homepage-container">
             <CarouselHomePage />
             <div className="section-divider"></div>
             <PostList />

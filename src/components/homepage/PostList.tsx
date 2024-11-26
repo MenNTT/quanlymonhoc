@@ -1,5 +1,6 @@
 // PostList.tsx
 import React, { useState } from 'react';
+import { FaInfoCircle, FaBell, FaNewspaper, FaCalendarAlt, FaEye, FaChevronDown } from 'react-icons/fa';
 import '../../styles/PostList.css';
 
 interface Post {
@@ -148,6 +149,7 @@ const postsData: Post[] = [
 const PostList: React.FC = () => {
     const [activeTab, setActiveTab] = useState<string>('thong-tin');
     const [visiblePosts, setVisiblePosts] = useState<number>(6);
+    const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
     const handleTabClick = (tab: string) => {
         setActiveTab(tab);
@@ -161,52 +163,67 @@ const PostList: React.FC = () => {
     const filteredPosts = postsData.filter(post => post.category === activeTab);
 
     return (
-        <div className="container mt-4">
-            <div className="d-flex justify-content-center mb-3">
-                <ul className="post-tabs d-flex list-unstyled mb-0">
-                    <li className="post-tab-item">
-                        <button 
-                            className={`post-tab-link px-4 py-2 border-0 ${activeTab === 'thong-tin' ? 'active' : ''}`} 
-                            onClick={() => handleTabClick('thong-tin')}
-                        >
-                            Thông tin
-                        </button>
-                    </li>
-                    <li className="post-tab-item">
-                        <button 
-                            className={`post-tab-link px-4 py-2 border-0 ${activeTab === 'thong-bao' ? 'active' : ''}`} 
-                            onClick={() => handleTabClick('thong-bao')}
-                        >
-                            Thông báo
-                        </button>
-                    </li>
-                    <li className="post-tab-item">
-                        <button 
-                            className={`post-tab-link px-4 py-2 border-0 ${activeTab === 'tin-tuc' ? 'active' : ''}`} 
-                            onClick={() => handleTabClick('tin-tuc')}
-                        >
-                            Tin tức
-                        </button>
-                    </li>
-                </ul>
+        <div className="post-container">
+            <div className="tab-container">
+                <div className="tab-wrapper">
+                    <button 
+                        className={`tab-button ${activeTab === 'thong-tin' ? 'active' : ''}`}
+                        onClick={() => handleTabClick('thong-tin')}
+                    >
+                        <FaInfoCircle className="tab-icon" />
+                        <span>Thông tin</span>
+                    </button>
+                    <button 
+                        className={`tab-button ${activeTab === 'thong-bao' ? 'active' : ''}`}
+                        onClick={() => handleTabClick('thong-bao')}
+                    >
+                        <FaBell className="tab-icon" />
+                        <span>Thông báo</span>
+                    </button>
+                    <button 
+                        className={`tab-button ${activeTab === 'tin-tuc' ? 'active' : ''}`}
+                        onClick={() => handleTabClick('tin-tuc')}
+                    >
+                        <FaNewspaper className="tab-icon" />
+                        <span>Tin tức</span>
+                    </button>
+                </div>
             </div>
-            <div className="row">
+
+            <div className="posts-grid">
                 {filteredPosts.slice(0, visiblePosts).map(post => (
-                    <div key={post.id} className="col-md-4 mb-4">
-                        <div className="card">
-                            <img src={post.image} className="card-img-top" alt={post.title} />
-                            <div className="card-body d-flex flex-column text-center">
-                                <h5 className="card-title">{post.title}</h5>
-                                <p className="card-text">Ngày đăng: {post.date}</p>
-                                <button className="btn btn-dark text-white w-100 mt-auto">Chi tiết</button>
+                    <div 
+                        key={post.id} 
+                        className="post-card"
+                        onMouseEnter={() => setHoveredCard(post.id)}
+                        onMouseLeave={() => setHoveredCard(null)}
+                    >
+                        <div className="card-image-container">
+                            <img src={post.image} alt={post.title} />
+                            <div className={`card-overlay ${hoveredCard === post.id ? 'active' : ''}`}>
+                                <button className="view-button">
+                                    <FaEye />
+                                    <span>Xem chi tiết</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div className="card-content">
+                            <h3 className="card-title">{post.title}</h3>
+                            <div className="card-date">
+                                <FaCalendarAlt />
+                                <span>{post.date}</span>
                             </div>
                         </div>
                     </div>
                 ))}
             </div>
+
             {visiblePosts < filteredPosts.length && (
-                <div className="text-center">
-                    <button className="btn btn-secondary" onClick={loadMorePosts}>Xem thêm</button>
+                <div className="load-more-container">
+                    <button className="load-more-button" onClick={loadMorePosts}>
+                        <span>Xem thêm bài viết</span>
+                        <FaChevronDown className="down-icon" />
+                    </button>
                 </div>
             )}
         </div>

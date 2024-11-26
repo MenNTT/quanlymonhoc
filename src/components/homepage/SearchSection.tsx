@@ -1,44 +1,59 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../styles/SearchSection.css';
 
 const SearchSection: React.FC = () => {
     return (
-        <div className="text-center my-5 mx-5">
-            <h2>
-                Tổng khai giảng khóa 1 từ ngày <span className="highlight-text">01/11/2024</span> đến ngày <span className="highlight-text">23/11/2024</span>
-            </h2>
-            <h2>
-                Ưu đãi học phí lên đến <span className="highlight-text">100%</span>
-            </h2>
-            <button className="btn btn-orange my-3 rounded-pill px-4 py-2">Đăng ký ngay</button>
-            <div className="row">
-                <div className="col-md-4 mb-3">
-                    <div className="card bg-dark text-black">
-                        <img src="https://thsp.edu.vn/sites/default/files/styles/media_thumbnail_370x220/public/media/image/2020-05/40aba2e9a30b5955001a2.jpg?h=4f3c45b6&itok=RJ0i8-6N" className="card-img" alt="Search for exam scores" />
-                        <div className="card-img-overlay d-flex flex-column justify-content-center">
-                            <h3 className="card-title"><b>Search for exam scores</b></h3>
-                            <p className="card-text text-black">Description for searching exam scores.</p>
-                        </div>
-                    </div>
+        <div className="search-section">
+            <div className="announcement-container">
+                <div className="announcement-wrapper">
+                    <h2 className="announcement-text">
+                        Tổng khai giảng khóa <span className="highlight-number">1</span> từ ngày 
+                        <span className="highlight-date">01/11/2024</span> đến 
+                        <span className="highlight-date">23/11/2024</span>
+                    </h2>
+                    <h3 className="promotion-text">
+                        Ưu đãi học phí lên đến <span className="highlight-percent">100%</span>
+                    </h3>
+                    <button className="register-button">
+                        Đăng ký ngay
+                        <i className="fas fa-arrow-right"></i>
+                    </button>
                 </div>
-                <div className="col-md-4 mb-3">
-                    <div className="card bg-dark text-white">
-                        <img src="https://thsp.edu.vn/sites/default/files/styles/media_thumbnail_370x220/public/media/image/2018-06/thong_bao_tin_tuc-01.png?h=59060ff4&itok=L4OkXb3B" className="card-img" alt="National IT certification exam schedule" />
-                        <div className="card-img-overlay d-flex flex-column justify-content-center">
-                            <h3 className="card-title"><b>National IT certification exam schedule</b></h3>
-                            <p className="card-text text-black">Description for the exam schedule.</p>
-                        </div>
+            </div>
+
+            <div className="search-cards-container">
+                <div className="search-card">
+                    <div className="notification-bell">
+                        <i className="fas fa-bell"></i>
+                        <span className="notification-badge">Mới</span>
                     </div>
+                    <div className="card-icon purple">
+                        <i className="fas fa-search"></i>
+                    </div>
+                    <h3>Tra cứu điểm thi</h3>
+                    <p>Xem kết quả các kỳ thi của bạn</p>
                 </div>
-                <div className="col-md-4 mb-3">
-                    <div className="card bg-dark text-black">
-                        <img src="https://thsp.edu.vn/sites/default/files/styles/media_thumbnail_370x220/public/media/image/2020-05/87c1ff9efe7c04225d6d3.jpg?h=4f3c45b6&itok=55l0iTMG" className="card-img" alt="Certificate Lookup" />
-                        <div className="card-img-overlay d-flex flex-column justify-content-center">
-                            <h3 className="card-title"><b>Certificate Lookup</b></h3>
-                            <p className="card-text text-black">Description for certificate lookup.</p>
-                        </div>
+
+                <div className="search-card">
+                    <div className="notification-bell">
+                        <i className="fas fa-bell"></i>
                     </div>
+                    <div className="card-icon green">
+                        <i className="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3>Lịch thi chứng chỉ CNTT</h3>
+                    <p>Xem lịch thi các kỳ sắp tới</p>
+                </div>
+
+                <div className="search-card">
+                    <div className="notification-bell">
+                        <i className="fas fa-bell"></i>
+                    </div>
+                    <div className="card-icon orange">
+                        <i className="fas fa-certificate"></i>
+                    </div>
+                    <h3>Tra cứu chứng chỉ</h3>
+                    <p>Kiểm tra thông tin chứng chỉ của bạn</p>
                 </div>
             </div>
         </div>

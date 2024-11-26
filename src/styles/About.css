@@ -1150,3 +1150,81 @@ section h2:hover::before {
         font-size: 2rem;
     }
 } 
+
+/* Style chung cho tất cả section header */
+.section-header,
+.achievement-title-wrapper,
+.partners-header {
+    text-align: center;
+    margin-bottom: 50px;
+    position: relative;
+    padding-bottom: 20px;
+}
+
+/* Style cho tiêu đề */
+.section-header h2,
+.achievement-title,
+.partners-title {
+    font-size: 2.5rem;
+    color: var(--purple-primary);
+    margin-bottom: 15px;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 15px;
+}
+
+/* Hiệu ứng gạch chân cho tất cả tiêu đề */
+.section-header h2::after,
+.achievement-title::after,
+.partners-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--purple-primary), var(--purple-light));
+    border-radius: 2px;
+}
+
+/* Style cho subtitle */
+.section-subtitle,
+.achievement-subtitle,
+.partners-subtitle {
+    font-size: 1.1rem;
+    color: #64748B;
+    max-width: 600px;
+    margin: 15px auto 0;
+    line-height: 1.6;
+}
+
+/* Điều chỉnh khoảng cách giữa các section */
+.achievements-section,
+.partners-section {
+    padding: 80px 0;
+    position: relative;
+}
+
+/* Icon trong achievement title */
+.achievement-title-icon {
+    margin-right: 10px;
+    color: var(--purple-primary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .section-header h2,
+    .achievement-title,
+    .partners-title {
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .section-header h2,
+    .achievement-title,
+    .partners-title {
+        font-size: 1.8rem;
+    }
+} 

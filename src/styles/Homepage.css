@@ -3,4 +3,17 @@
     height: 1px;
     background: linear-gradient(to right, transparent, #dee2e6, transparent);
     margin: 2rem auto;
+    box-shadow: none;
+}
+
+.homepage-container {
+    position: relative;
+    z-index: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.no-elevation {
+    box-shadow: none !important;
+    background: transparent;
 } 

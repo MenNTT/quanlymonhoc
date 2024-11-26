@@ -30,6 +30,7 @@ import InstructorCourses from "../pages/instructor/InstructorCourse.tsx";
 import CoursesPage from "../pages/CoursesPage/CoursesPage.tsx";
 import AdminCourseDetail from "../pages/admin/CourseDetail";
 import Lookup from "../pages/aboutnews/Lockup.tsx";
+import ChatBox from '../components/ChatBox';
 const RouteComponent: React.FC = () => {
     const location = useLocation();
     console.log('Current location:', location);
@@ -183,6 +184,7 @@ const RouteComponent: React.FC = () => {
                 />
             </Routes>
             {!hideHeaderFooter && <Footer />}
+            {!isAdminRoute && <ChatBox />}
         </>
     );
 };

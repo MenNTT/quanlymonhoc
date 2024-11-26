@@ -53,7 +53,12 @@ const About: React.FC = () => {
 
             <section className="why-choose-section">
                 <div className="container">
-                    <h2>Tại sao chọn ITLearn?</h2>
+                    <div className="section-header">
+                        <h2>Tại sao chọn ITLearn?</h2>
+                        <p className="section-subtitle">
+                            Khám phá những giá trị độc đáo mà chúng tôi mang lại cho hành trình học tập của bạn
+                        </p>
+                    </div>
                     <div className="features-grid">
                         <div className="feature-card">
                             <i className="fas fa-graduation-cap"></i>
@@ -79,9 +84,16 @@ const About: React.FC = () => {
                 </div>
             </section>
 
+            <div className="section-divider"></div>
+
             <section className="programs-section">
                 <div className="container">
-                    <h2>Chương trình đào tạo</h2>
+                    <div className="section-header">
+                        <h2>Chương trình đào tạo</h2>
+                        <p className="section-subtitle">
+                            Các khóa học được thiết kế chuyên biệt, đáp ứng nhu cầu thực tế của ngành công nghệ
+                        </p>
+                    </div>
                     <div className="programs-grid">
                         <div className="program-card">
                             <div className="program-icon">
@@ -128,10 +140,15 @@ const About: React.FC = () => {
 
             <section className="achievements-section">
                 <div className="container">
-                    <h2 className="achievement-title">
-                        <i className="fas fa-trophy achievement-title-icon"></i>
-                        THÀNH TỰU CỦA CHÚNG TÔI
-                    </h2>
+                    <div className="section-header">
+                        <h2 className="achievement-title">
+                            <i className="fas fa-trophy achievement-title-icon"></i>
+                            THÀNH TỰU CỦA CHÚNG TÔI
+                        </h2>
+                        <p className="section-subtitle">
+                            Những con số ấn tượng đánh dấu chặng đường phát triển của chúng tôi
+                        </p>
+                    </div>
                     <div className="stats-grid">
                         <div className="stat-item">
                             <div className="stat-icon">
@@ -165,9 +182,16 @@ const About: React.FC = () => {
                 </div>
             </section>
 
+            <div className="section-divider"></div>
+
             <section className="partners-section">
                 <div className="container">
-                    <h2>Đối tác của chúng tôi</h2>
+                    <div className="section-header">
+                        <h2 className="partners-title">ĐỐI TÁC CỦA CHÚNG TÔI</h2>
+                        <p className="section-subtitle">
+                            Hợp tác cùng các tổ chức hàng đầu trong lĩnh vực công nghệ và giáo dục
+                        </p>
+                    </div>
                     <div className="partners-grid">
                         <div className="partner-category">
                             <div className="partner-icon">
