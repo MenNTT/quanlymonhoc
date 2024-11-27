@@ -17,7 +17,7 @@ import Home from "../pages/admin/Home.tsx";
 import Courses from "../pages/admin/Courses.tsx";
 import Users from "../pages/admin/Users.tsx";
 import Revenue from "../pages/admin/Revenue.tsx";
-import Profile from "../pages/admin/Profile.tsx";
+import AdminProfile from "../pages/admin/AdminProfile.tsx";
 import AddCourse from '../pages/admin/AddCourse.tsx';
 import EditCourse from '../pages/admin/EditCourse.tsx';
 import ManageInstructors from '../pages/admin/ManageInstructors.tsx';
@@ -31,6 +31,7 @@ import CoursesPage from "../pages/CoursesPage/CoursesPage.tsx";
 import AdminCourseDetail from "../pages/admin/CourseDetail";
 import Lookup from "../pages/aboutnews/Lockup.tsx";
 import ChatBox from '../components/ChatBox';
+
 const RouteComponent: React.FC = () => {
     const location = useLocation();
     console.log('Current location:', location);
@@ -60,6 +61,8 @@ const RouteComponent: React.FC = () => {
                 <Route path='/news' element={<New />} />
                 <Route path='/search' element={<Lookup />} />
                 <Route path='/courses' element={<CoursesPage />} />
+                
+                
                 
 
                 
@@ -144,7 +147,7 @@ const RouteComponent: React.FC = () => {
                     path="/admin/profile" 
                     element={
                         <ProtectedRoute requiredRole="admin">
-                            <Profile />
+                            <AdminProfile />
                         </ProtectedRoute>
                     } 
                 />

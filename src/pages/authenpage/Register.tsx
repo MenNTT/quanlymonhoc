@@ -68,12 +68,25 @@ const Register: React.FC = () => {
             <div className="login-container">
                 {/* Left side - Illustration */}
                 <div className="illustration-side">
-                    <div className="logo">Logo</div>
-                    <img 
-                        src="/path-to-your-tree-illustration.png" 
-                        alt="Nature" 
-                        className="nature-illustration"
-                    />
+                    <div className="register-illustration">
+                        <div className="animation-container">
+                            <i className="fas fa-graduation-cap main-icon"></i>
+                            <div className="floating-icons">
+                                <i className="fas fa-dumbbell fitness-icon"></i>
+                                <i className="fas fa-heart health-icon"></i>
+                                <i className="fas fa-medal achievement-icon"></i>
+                            </div>
+                            <div className="circles">
+                                <span className="circle"></span>
+                                <span className="circle"></span>
+                                <span className="circle"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="illustration-text">
+                        <h3>Start Your Fitness Journey</h3>
+                        <p>Transform your life with our professional training courses</p>
+                    </div>
                 </div>
 
                 {/* Right side - Register Form */}
@@ -83,9 +96,9 @@ const Register: React.FC = () => {
                             <i className="bi bi-arrow-left"></i> Back
                         </Link>
 
-                        <h2>Account Signup</h2>
+                        <h2>Create Your Account</h2>
                         <p className="subtitle">
-                            Become a member and enjoy exclusive promotions.
+                            Join our fitness community and access premium training courses
                         </p>
 
                         {error && <div className="error-message">{error}</div>}

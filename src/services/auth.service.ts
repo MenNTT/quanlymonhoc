@@ -61,15 +61,42 @@ class AuthService extends BaseService {
 
     async updateProfile(userId: string, userData: Partial<RegisterData>): Promise<ApiResponse<User>> {
         try {
+            const token = cookieService.get('authToken');
+            console.log('Updating profile for user:', userId);
+            console.log('Auth token:', token);
+            console.log('Update data:', userData);
+
+            if (!token) {
+                return {
+                    success: false,
+                    message: 'Không tìm thấy token xác thực'
+                };
+            }
+
             const response = await this.put<ApiResponse<User>>(
                 API_ENDPOINTS.AUTH.UPDATE(userId), 
-                userData
+                userData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
             );
+            
+            console.log('Update profile response:', response);
             
             return response.data;
         } catch (error: any) {
             console.error('Update profile error:', error);
-            throw {
+            console.error('Error response:', error.response);
+            
+            if (error.response?.status === 401) {
+                return {
+                    success: false,
+                    message: 'Phiên đăng nhập đã hết hạn'
+                };
+            }
+            return {
                 success: false,
                 message: error.response?.data?.message || 'Cập nhật thông tin thất bại'
             };

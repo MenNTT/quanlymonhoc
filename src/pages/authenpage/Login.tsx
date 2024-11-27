@@ -90,12 +90,21 @@ const Login: React.FC = () => {
             <div className="login-container">
                 {/* Left side - Illustration */}
                 <div className="illustration-side">
-                    <div className="logo">Logo</div>
-                    <img 
-                        src="../../../images/image/background_login.gif" 
-                        alt="Exercise" 
-                        className="exercise-illustration"
-                    />
+                    <div className="login-illustration">
+                        <div className="animation-container">
+                            <i className="fas fa-user-circle user-icon"></i>
+                            <div className="circles">
+                                <span className="circle"></span>
+                                <span className="circle"></span>
+                                <span className="circle"></span>
+                            </div>
+                            <i className="fas fa-lock lock-icon"></i>
+                        </div>
+                    </div>
+                    <div className="illustration-text">
+                        <h3>Welcome Back!</h3>
+                        <p>Your fitness journey continues here</p>
+                    </div>
                 </div>
 
                 {/* Right side - Login Form */}

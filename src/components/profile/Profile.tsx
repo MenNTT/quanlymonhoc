@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import authService from '../../services/auth.service';
+import userService from '../../services/user.service';
 
 interface User {
-    id: string;
+    id?: string;
     email: string;
     fullName: string;
     phoneNumber?: string;
@@ -39,9 +39,14 @@ const Profile: React.FC = () => {
 
     useEffect(() => {
         if (!user) {
+            console.log('No user found in context');
+            const storedUser = localStorage.getItem('user');
+            console.log('Stored user:', storedUser);
             navigate('/login');
             return;
         }
+
+        console.log('Current user:', user);
 
         setFormData({
             id: user.id || '',
@@ -75,28 +80,41 @@ const Profile: React.FC = () => {
             return false;
         }
 
-        if (formData.phoneNumber?.trim()) {
-            const phoneRegex = /^(\+84|84|0)[0-9]{9}$/;
-            if (!phoneRegex.test(formData.phoneNumber.trim())) {
-                setError('Số điện thoại không hợp lệ');
-                return false;
-            }
+        if (!formData.phoneNumber?.trim()) {
+            setError('Vui lòng nhập số điện thoại');
+            return false;
         }
 
-        if (formData.birthDate) {
-            const birthDate = new Date(formData.birthDate);
-            const today = new Date();
-            const minDate = new Date(today.getFullYear() - 100, today.getMonth(), today.getDate());
-            
-            if (birthDate > today) {
-                setError('Ngày sinh không thể là ngày trong tương lai');
-                return false;
-            }
-            
-            if (birthDate < minDate) {
-                setError('Ngày sinh không hợp lệ');
-                return false;
-            }
+        if (!formData.address?.trim()) {
+            setError('Vui lòng nhập địa chỉ');
+            return false;
+        }
+
+        if (!formData.birthDate) {
+            setError('Vui lòng nhập ngày sinh');
+            return false;
+        }
+
+        // Validate phone number format
+        const phoneRegex = /^(\+84|84|0)[0-9]{9}$/;
+        if (!phoneRegex.test(formData.phoneNumber.trim())) {
+            setError('Số điện thoại không hợp lệ');
+            return false;
+        }
+
+        // Validate birth date
+        const birthDate = new Date(formData.birthDate);
+        const today = new Date();
+        const minDate = new Date(today.getFullYear() - 100, today.getMonth(), today.getDate());
+        
+        if (birthDate > today) {
+            setError('Ngày sinh không thể là ngày trong tương lai');
+            return false;
+        }
+        
+        if (birthDate < minDate) {
+            setError('Ngày sinh không hợp lệ');
+            return false;
         }
 
         return true;
@@ -129,49 +147,34 @@ const Profile: React.FC = () => {
             }
 
             if (!user?.id) {
-                setError('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
-                navigate('/login');
+                setError('Không tìm thấy thông tin người dùng');
                 return;
             }
 
             const formattedData = {
                 fullName: formData.fullName.trim(),
-                phoneNumber: formData.phoneNumber?.trim() || undefined,
-                address: formData.address?.trim() || undefined,
-                birthDate: formData.birthDate || undefined
+                phoneNumber: formData.phoneNumber?.trim() || '',
+                address: formData.address?.trim() || '',
+                birthDate: formData.birthDate || ''
             };
 
-            const response = await authService.updateProfile(user.id, formattedData);
+            const response = await userService.updateProfile(user.id, formattedData);
 
             if (response.success && response.data) {
-                const updatedUser: User = {
-                    id: user.id,
-                    email: user.email,
-                    roles: user.roles,
-                    fullName: response.data.fullName,
-                    phoneNumber: response.data.phoneNumber,
-                    address: response.data.address,
-                    birthDate: response.data.birthDate
+                const updatedUser = {
+                    ...user,
+                    ...response.data
                 };
                 setUser(updatedUser);
                 localStorage.setItem('user', JSON.stringify(updatedUser));
                 setSuccess('Cập nhật thông tin thành công!');
                 setIsEditing(false);
-                setError(null);
             } else {
                 setError(response.message || 'Có lỗi xảy ra khi cập nhật thông tin');
             }
         } catch (error: any) {
             console.error('Update profile error:', error);
-            
-            if (error.response?.status === 401 || error.response?.status === 403) {
-                setError('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
-                authService.logout();
-                setUser(null);
-                navigate('/login');
-            } else {
-                setError(error.message || 'Có lỗi xảy ra khi cập nhật thông tin');
-            }
+            setError(error.message || 'Có lỗi xảy ra khi cập nhật thông tin');
         }
     };
 

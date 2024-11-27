@@ -20,23 +20,148 @@
 /* Left side - Illustration */
 .illustration-side {
     flex: 1;
-    background: #003060;
-    padding: 40px;
+    background: linear-gradient(45deg, #003060, #004a94);
+    padding: 60px 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
 }
 
-.logo {
+.login-illustration {
+    width: 300px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+.animation-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-icon {
+    font-size: 60px;
     color: white;
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 40px;
+    position: absolute;
+    top: 20px;
 }
 
-.exercise-illustration {
-    max-width: 80%;
-    height: auto;
+.lock-icon {
+    font-size: 40px;
+    color: white;
+    position: absolute;
+    bottom: 20px;
+}
+
+.circles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.circle {
+    position: absolute;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    animation: ripple 3s ease-in-out infinite;
+}
+
+.circle:nth-child(1) {
+    width: 100px;
+    height: 100px;
+    animation-delay: 0s;
+}
+
+.circle:nth-child(2) {
+    width: 140px;
+    height: 140px;
+    animation-delay: 0.5s;
+}
+
+.circle:nth-child(3) {
+    width: 180px;
+    height: 180px;
+    animation-delay: 1s;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.3;
+    }
+    50% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(0.8);
+        opacity: 0.3;
+    }
+}
+
+.illustration-text {
+    text-align: center;
+    color: white;
+    margin-top: 20px;
+    animation: fadeIn 1s ease-in;
+}
+
+.illustration-text h3 {
+    font-size: 28px;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.illustration-text p {
+    font-size: 16px;
+    opacity: 0.9;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Thêm hiệu ứng shine cho background */
+.illustration-side::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255, 255, 255, 0.03),
+        transparent
+    );
+    transform: rotate(45deg);
+    animation: shine 10s linear infinite;
+}
+
+@keyframes shine {
+    0% {
+        transform: rotate(45deg) translateX(-100%);
+    }
+    100% {
+        transform: rotate(45deg) translateX(100%);
+    }
 }
 
 /* Right side - Form */
