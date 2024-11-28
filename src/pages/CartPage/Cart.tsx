@@ -1,212 +1,146 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { CourseItem, useCart } from '../../contexts/CartContext';
+import React, { useState } from 'react';
+import { useCart } from '../../contexts/CartContext';
+import { useNavigate } from 'react-router-dom';
 import '../../styles/Cart.css';
-import { RECOMMENDED_COURSES } from '../../contexts/CartContext';
-import { CartService } from '../../services/cart.service';
 
 const Cart: React.FC = () => {
     const { cartItems, removeFromCart, totalAmount } = useCart();
+    const navigate = useNavigate();
     const [couponCode, setCouponCode] = useState('');
-    const [appliedCoupon, setAppliedCoupon] = useState('KEEPLEARNING');
-    const [isLoading, setIsLoading] = useState(true);
-    const [isProcessing, setIsProcessing] = useState(false);
-    const [isMovingToWishlist, setIsMovingToWishlist] = useState<number | null>(null);
 
-    useEffect(() => {
-        // Giả lập loading
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 500);
-    }, []);
-
-    // Thêm hàm xử lý xóa khóa học
-    const handleRemove = (id: number) => {
-        if (window.confirm('Bạn có chắc muốn xóa khóa học này?')) {
-            removeFromCart(id);
-        }
+    const handleCheckout = () => {
+        navigate('/payment');
     };
 
-    const handleApplyCoupon = () => {
-        if (!couponCode.trim()) {
-            alert('Vui lòng nhập mã giảm giá');
-            return;
-        }
-        // Xử lý logic áp dụng coupon
-        setAppliedCoupon(couponCode);
-        setCouponCode('');
-    };
-
-    const handleRemoveCoupon = () => {
-        setAppliedCoupon('');
-    };
-
-    const handleCheckout = async () => {
-        try {
-            setIsProcessing(true);
-            // Xử lý logic checkout
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            // Redirect to checkout page or show success message
-        } catch (error) {
-            console.error('Checkout failed:', error);
-            alert('Có lỗi xảy ra khi thanh toán. Vui lòng thử lại.');
-        } finally {
-            setIsProcessing(false);
-        }
-    };
-
-    const handleMoveToWishlist = async (courseId: number) => {
-        try {
-            setIsMovingToWishlist(courseId);
-            await CartService.addToWishlist(courseId.toString());
-            removeFromCart(courseId); // Xóa khỏi giỏ hàng sau khi thêm vào wishlist
-            alert('Đã thêm khóa học vào danh sách yêu thích');
-        } catch (error) {
-            console.error('Error moving to wishlist:', error);
-            alert('Có lỗi xảy ra khi thêm vào danh sách yêu thích');
-        } finally {
-            setIsMovingToWishlist(null);
-        }
-    };
-
-    // Cập nhật giao diện cart item
-    const CartItem: React.FC<{ item: CourseItem; onRemove: (id: number) => void }> = ({ item, onRemove }) => (
-        <div className="cart-item">
-            <div className="item-left">
-                <img src={item.image} alt={item.title} />
-                <div className="item-info">
-                    <h3>{item.title}</h3>
-                    <p className="instructor">{item.instructor}</p>
-                    <div className="course-details">
-                        <span>Tổng số {item.duration}</span>
-                        <span className="bullet">•</span>
-                        <span>{item.lectures} bài giảng</span>
-                        <span className="bullet">•</span>
-                        <span>{item.level}</span>
+    if (cartItems.length === 0) {
+        return (
+            <div className="container py-5">
+                <div className="text-center empty-cart">
+                    <div className="empty-cart-icon mb-4">
+                        <i className="fas fa-shopping-cart fa-4x text-muted"></i>
                     </div>
-                    <div className="rating">
-                        <span>{item.rating}</span>
-                        <div className="stars">{'★'.repeat(Math.floor(item.rating))}</div>
-                        <span className="rating-count">({item.ratingCount} xếp hạng)</span>
-                    </div>
-                </div>
-            </div>
-            <div className="item-right">
-                <div className="item-actions">
-                    <button className="action-link" onClick={() => onRemove(item.id)}>
-                        Xóa
-                    </button>
+                    <h3 className="mb-3">Giỏ hàng của bạn đang trống</h3>
+                    <p className="text-muted mb-4">Hãy khám phá các khóa học hấp dẫn của chúng tôi</p>
                     <button 
-                        className="action-link"
-                        onClick={() => handleMoveToWishlist(item.id)}
-                        disabled={isMovingToWishlist === item.id}
+                        className="btn btn-primary btn-lg"
+                        onClick={() => navigate('/courses')}
                     >
-                        {isMovingToWishlist === item.id ? 'Đang xử lý...' : 'Chuyển vào danh sách yêu thích'}
+                        <i className="fas fa-book-open me-2"></i>
+                        Xem khóa học
                     </button>
                 </div>
-                <div className="item-price">₫{item.price.toLocaleString()}</div>
             </div>
-        </div>
-    );
+        );
+    }
 
     return (
-        <div className="cart-container">
-            {isLoading ? (
-                <div className="loading">Đang tải...</div>
-            ) : (
-                <>
-                    {cartItems.length === 0 ? (
-                        <div className="empty-cart">
-                            <h2>Giỏ hàng của bạn đang trống</h2>
-                            <Link to="/courses" className="browse-courses-btn">
-                                Duyệt khóa học
-                            </Link>
-                        </div>
-                    ) : (
-                        <div className="cart-main">
-                            <h1>Giỏ hàng</h1>
-                            <div className="cart-count">{cartItems.length} khóa học trong giỏ hàng</div>
-
-                            <div className="cart-items">
-                                {cartItems.map(item => (
-                                    <CartItem key={item.id} item={item} onRemove={handleRemove} />
-                                ))}
-                            </div>
-
-                            {cartItems.length > 0 && (
-                                <div className="recommendations">
-                                    <h2>Bạn cũng có thể thích</h2>
-                                    <div className="recommendation-list">
-                                        {RECOMMENDED_COURSES.map(course => (
-                                            <div key={course.id} className="recommendation-item">
-                                                <img src={course.image} alt={course.title} />
-                                                <div className="recommendation-info">
-                                                    <h3>{course.title}</h3>
-                                                    <p className="instructor">{course.instructor}</p>
-                                                    <div className="rating">
-                                                        <span>{course.rating}</span>
-                                                        <div className="stars">
-                                                            {'★'.repeat(Math.floor(course.rating))}
-                                                            {course.rating % 1 >= 0.5 ? '½' : ''}
-                                                        </div>
-                                                        <span className="rating-count">({course.ratingCount})</span>
+        <div className="container py-5">
+            <h2 className="mb-4 fw-bold">Giỏ hàng của bạn</h2>
+            <div className="row g-4">
+                <div className="col-lg-8">
+                    <div className="cart-items-container">
+                        {cartItems.map(item => (
+                            <div key={item.id} className="cart-item card border-0 shadow-sm mb-3">
+                                <div className="card-body p-4">
+                                    <div className="d-flex gap-4">
+                                        <div className="cart-item-image">
+                                            {item.image && (
+                                                <img 
+                                                    src={item.image} 
+                                                    alt={item.name} 
+                                                    className="rounded"
+                                                    style={{ width: '160px', height: '120px', objectFit: 'cover' }}
+                                                />
+                                            )}
+                                        </div>
+                                        <div className="cart-item-details flex-grow-1">
+                                            <div className="d-flex justify-content-between align-items-start">
+                                                <div>
+                                                    <h5 className="mb-2">{item.name}</h5>
+                                                    <p className="text-muted mb-2">{item.description}</p>
+                                                    <div className="course-meta">
+                                                        <span className="me-3">
+                                                            <i className="fas fa-clock text-primary me-1"></i> 6 giờ
+                                                        </span>
+                                                        <span className="me-3">
+                                                            <i className="fas fa-video text-primary me-1"></i> 24 bài học
+                                                        </span>
                                                     </div>
-                                                    <div className="price">₫{course.price.toLocaleString()}</div>
+                                                </div>
+                                                <div className="text-end">
+                                                    <h5 className="text-primary mb-3">
+                                                        {item.feeAmount.toLocaleString()} {item.currency}
+                                                    </h5>
+                                                    <button 
+                                                        className="btn btn-outline-danger btn-sm"
+                                                        onClick={() => removeFromCart(item.id.toString())}
+                                                    >
+                                                        <i className="fas fa-trash me-1"></i>
+                                                        Xóa
+                                                    </button>
                                                 </div>
                                             </div>
-                                        ))}
+                                        </div>
                                     </div>
                                 </div>
-                            )}
-                        </div>
-                    )}
-
-                    <div className="cart-sidebar">
-                        <div className="total-section">
-                            <h3>Tổng:</h3>
-                            <div className="total-amount">₫{totalAmount.toLocaleString()}</div>
-                        </div>
-
-                        <button 
-                            className="checkout-btn"
-                            onClick={handleCheckout}
-                            disabled={isProcessing || cartItems.length === 0}
-                        >
-                            {isProcessing ? 'Đang xử lý...' : 'Thanh toán'}
-                        </button>
-
-                        <div className="promotion-section">
-                            <h3>Khuyến mãi</h3>
-                            {appliedCoupon && (
-                                <div className="coupon-applied">
-                                    <div className="coupon-info">
-                                        <div>Đã áp dụng <strong>{appliedCoupon}</strong></div>
-                                        <div className="coupon-source">Coupon của Udemy</div>
-                                    </div>
-                                    <button 
-                                        className="remove-coupon"
-                                        onClick={handleRemoveCoupon}
-                                    >×</button>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <div className="col-lg-4">
+                    <div className="card border-0 shadow-sm">
+                        <div className="card-body p-4">
+                            <h5 className="card-title mb-4">Tổng thanh toán</h5>
+                            
+                            <div className="mb-4">
+                                <div className="input-group">
+                                    <input 
+                                        type="text" 
+                                        className="form-control"
+                                        placeholder="Nhập mã giảm giá"
+                                        value={couponCode}
+                                        onChange={(e) => setCouponCode(e.target.value)}
+                                    />
+                                    <button className="btn btn-outline-primary">
+                                        Áp dụng
+                                    </button>
                                 </div>
-                            )}
-                            <div className="coupon-input">
-                                <input 
-                                    type="text" 
-                                    placeholder="Nhập coupon"
-                                    value={couponCode}
-                                    onChange={(e) => setCouponCode(e.target.value)}
-                                />
-                                <button 
-                                    className="apply-btn"
-                                    onClick={handleApplyCoupon}
-                                >
-                                    Áp dụng
-                                </button>
+                            </div>
+
+                            <div className="price-details">
+                                <div className="d-flex justify-content-between mb-2">
+                                    <span>Tạm tính</span>
+                                    <span>{totalAmount.toLocaleString()} VND</span>
+                                </div>
+                                <div className="d-flex justify-content-between mb-2">
+                                    <span>Giảm giá</span>
+                                    <span className="text-success">0 VND</span>
+                                </div>
+                                <hr />
+                                <div className="d-flex justify-content-between mb-4">
+                                    <strong>Tổng cộng</strong>
+                                    <strong className="text-primary">{totalAmount.toLocaleString()} VND</strong>
+                                </div>
+                            </div>
+
+                            <button 
+                                className="btn btn-primary w-100 btn-lg"
+                                onClick={handleCheckout}
+                            >
+                                <i className="fas fa-lock me-2"></i>
+                                Thanh toán an toàn
+                            </button>
+
+                            <div className="text-center mt-3">
+                                <small className="text-muted">
+                                    <i className="fas fa-shield-alt me-1"></i>
+                                    Giao dịch được bảo mật 100%
+                                </small>
                             </div>
                         </div>
                     </div>
-                </>
-            )}
+                </div>
+            </div>
         </div>
     );
 };

@@ -42,16 +42,32 @@ const Profile: React.FC = () => {
             console.log('No user found in context');
             const storedUser = localStorage.getItem('user');
             console.log('Stored user:', storedUser);
-            navigate('/login');
+            if (storedUser) {
+                const parsedUser = JSON.parse(storedUser);
+                console.log('Parsed stored user:', parsedUser);
+                if (!parsedUser.id) {
+                    console.error('No ID in stored user data');
+                    navigate('/login');
+                    return;
+                }
+                setUser(parsedUser);
+            } else {
+                navigate('/login');
+            }
             return;
         }
 
         console.log('Current user:', user);
+        if (!user.id) {
+            console.error('No ID in current user');
+            navigate('/login');
+            return;
+        }
 
         setFormData({
-            id: user.id || '',
-            email: user.email || '',
-            fullName: user.fullName || '',
+            id: user.id,
+            email: user.email,
+            fullName: user.fullName,
             phoneNumber: user.phoneNumber || '',
             address: user.address || '',
             birthDate: user.birthDate || ''
@@ -146,7 +162,8 @@ const Profile: React.FC = () => {
                 return;
             }
 
-            if (!user?.id) {
+            const userId = user?.id;
+            if (!userId) {
                 setError('Không tìm thấy thông tin người dùng');
                 return;
             }
@@ -158,12 +175,12 @@ const Profile: React.FC = () => {
                 birthDate: formData.birthDate || ''
             };
 
-            const response = await userService.updateProfile(user.id, formattedData);
+            const response = await userService.updateProfile(userId, formattedData);
 
-            if (response.success && response.data) {
+            if (response.success) {
                 const updatedUser = {
                     ...user,
-                    ...response.data
+                    ...formattedData
                 };
                 setUser(updatedUser);
                 localStorage.setItem('user', JSON.stringify(updatedUser));
@@ -174,7 +191,7 @@ const Profile: React.FC = () => {
             }
         } catch (error: any) {
             console.error('Update profile error:', error);
-            setError(error.message || 'Có lỗi xảy ra khi cập nhật thông tin');
+            setError(error?.message || 'Có lỗi xảy ra khi cập nhật thông tin');
         }
     };
 

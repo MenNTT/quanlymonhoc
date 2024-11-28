@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { Course } from '../../models/Course';
 import { CourseService } from '../../services/course.service';
-import { FaClock, FaUsers, FaStar, FaHeart, FaEdit, FaTrash } from 'react-icons/fa';
+import { FaClock, FaUsers, FaStar, FaEdit, FaTrash, FaShoppingCart } from 'react-icons/fa';
 import '../../styles/course-detail.css';
+import { useCart } from '../../contexts/CartContext';
+import { Course as CourseType } from '../../models/Course';
 
 interface CourseDetailProps {
     isAdminView?: boolean;
@@ -12,11 +13,12 @@ interface CourseDetailProps {
 const CourseDetail: React.FC<CourseDetailProps> = ({ isAdminView = false }) => {
     const navigate = useNavigate();
     const { id_course } = useParams<{ id_course: string }>();
-    const [course, setCourse] = useState<Course | null>(null);
+    const [course, setCourse] = useState<CourseType | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [activeTab, setActiveTab] = useState<string>('description');
     const [isEnrolling, setIsEnrolling] = useState<boolean>(false);
+    const { addToCart } = useCart();
 
     useEffect(() => {
         const fetchCourse = async () => {
@@ -45,16 +47,19 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ isAdminView = false }) => {
         }).format(amount);
     };
 
+    const handleAddToCart = (course: CourseType) => {
+        addToCart(course);
+        alert('Đã thêm khóa học vào giỏ hàng!');
+    };
+
     const handleEnrollCourse = async () => {
         try {
             setIsEnrolling(true);
             if (!id_course) return;
-            await CourseService.enrollCourse(id_course);
-            alert('Đăng ký khóa học thành công!');
-            navigate('/my-courses');
+            navigate(`/payment/${id_course}`);
         } catch (err) {
             console.error(err);
-            alert('Không thể đăng ký khóa học. Vui lòng thử lại sau.');
+            alert('Có lỗi xảy ra. Vui lòng thử lại sau.');
         } finally {
             setIsEnrolling(false);
         }
@@ -178,9 +183,12 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ isAdminView = false }) => {
                                         'Đăng ký khóa học'
                                     )}
                                 </button>
-                                <button className="w-full border border-gray-300 text-gray-700 hover:bg-gray-50 py-2 px-4 rounded-lg transition-all flex items-center justify-center">
-                                    <FaHeart className="mr-2 h-4 w-4" />
-                                    Thêm vào yêu thích
+                                <button 
+                                    className="w-full border border-gray-300 text-gray-700 hover:bg-gray-50 py-2 px-4 rounded-lg transition-all flex items-center justify-center"
+                                    onClick={() => handleAddToCart(course)}
+                                >
+                                    <FaShoppingCart className="mr-2 h-4 w-4" />
+                                    Thêm vào giỏ hàng
                                 </button>
                                 {isAdminView && (
                                     <Link to={`/admin/courses/edit/${id_course}`} className="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 px-4 rounded-lg transition-all flex items-center justify-center">

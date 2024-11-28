@@ -1,0 +1,44 @@
+.payment-details {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.course-item {
+    padding: 15px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.course-item:last-child {
+    border-bottom: none;
+}
+
+.total-amount {
+    padding-top: 15px;
+    border-top: 2px solid #dee2e6;
+}
+
+.payment-method-icon {
+    height: 24px;
+    margin-right: 10px;
+}
+
+.payment-methods {
+    margin-top: 20px;
+}
+
+.btn-payment {
+    padding: 15px;
+    font-size: 1.1rem;
+}
+
+.payment-success {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.payment-success i {
+    font-size: 5rem;
+    color: #28a745;
+    margin-bottom: 20px;
+} 

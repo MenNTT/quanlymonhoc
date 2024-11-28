@@ -1,11 +1,11 @@
 // mockUsers.ts
 export interface User {
-    id?: string;
-    fullName: string;
+    id: string;
     email: string;
-    phoneNumber?: string;
-    address?: string;
-    birthDate?: string;
+    fullName: string;
+    phoneNumber?: string | null;
+    address?: string | null;
+    birthDate?: string | null;
     roles: string[];
 }
 export interface AuthResponse {
@@ -31,6 +31,7 @@ export interface LoginResponse {
     message: string;
     token: string;
     user: {
+        id: string | undefined;
         email: string;
         fullName: string;
         phoneNumber?: string;

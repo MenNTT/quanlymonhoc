@@ -67,36 +67,20 @@ class UserService extends BaseService {
             }
 
             const response = await this.put<ApiResponse<User>>(
-                API_ENDPOINTS.ACCOUNT.UPDATE,
+                `${API_ENDPOINTS.AUTH.UPDATE(userId)}`,
                 userData,
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
                     }
                 }
             );
 
-            console.log('Update profile response:', response);
             return response.data;
-        } catch (error: any) {
+        } catch (error) {
             console.error('Update profile error:', error);
-            
-            if (error.response?.status === 401) {
-                return {
-                    success: false,
-                    message: 'Phiên đăng nhập đã hết hạn'
-                };
-            }
-            if (error.response?.status === 403) {
-                return {
-                    success: false,
-                    message: 'Bạn không có quyền cập nhật thông tin này'
-                };
-            }
-            return {
-                success: false,
-                message: error.response?.data?.message || 'Cập nhật thông tin thất bại'
-            };
+            throw error;
         }
     }
 }

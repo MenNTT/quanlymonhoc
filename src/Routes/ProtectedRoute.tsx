@@ -17,7 +17,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     useEffect(() => {
         console.log('Protected Route Check:', {
             isAuthenticated,
-            userRoles: user?.roles,
+            AccountRoles: user?.roles,
             requiredRole,
             hasRequiredRole: requiredRole ? hasRole(requiredRole) : true
         });
@@ -29,7 +29,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
     if (requiredRole && !hasRole(requiredRole)) {
         console.log('Access denied:', {
-            userRoles: user?.roles,
+            AccountRoles: user?.roles,
             requiredRole,
             hasRole: hasRole(requiredRole)
         });

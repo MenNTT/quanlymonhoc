@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import authService from '../../services/auth.service';
 import '../../styles/Login.css';
 import { useAuth } from '../../contexts/AuthContext';
-import { User } from '../../models/user';
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -26,23 +25,25 @@ const Login: React.FC = () => {
 
             console.log('Full server response:', response);
 
-            if (response.success && response.data) {
-                console.log('Response data:', response.data);
-                console.log('User roles from response:', response.data.user.roles);
-
-                const userData: User = {
+            if (response.success && response.data && response.data.user.id) {
+                const userData = {
+                    id: response.data.user.id,
                     email: response.data.user.email,
                     fullName: response.data.user.fullName,
-                    phoneNumber: response.data.user.phoneNumber,
-                    address: response.data.user.address,
-                    roles: response.data.user.roles
+                    phoneNumber: response.data.user.phoneNumber || null,
+                    address: response.data.user.address || null,
+                    roles: response.data.user.roles || []
                 };
 
-                // Lưu user data trước
-                localStorage.setItem('user', JSON.stringify(userData));
-                await setUser(userData); // Đảm bảo setUser hoàn thành
+                console.log('User data before saving:', userData);
 
-                // Kiểm tra role và navigate
+                if (!userData.id || !userData.email || !userData.fullName) {
+                    throw new Error('Missing required user information');
+                }
+
+                localStorage.setItem('user', JSON.stringify(userData));
+                await setUser(userData);
+
                 const hasAdminRole = Array.isArray(userData.roles) && 
                     userData.roles.some(role => 
                         typeof role === 'string' && 
@@ -57,7 +58,6 @@ const Login: React.FC = () => {
 
                 if (hasAdminRole) {
                     console.log('Admin user detected, navigating to admin page');
-                    // Sử dụng timeout để đảm bảo state đã được cập nhật
                     setTimeout(() => {
                         navigate('/admin', { replace: true });
                     }, 100);
@@ -66,7 +66,7 @@ const Login: React.FC = () => {
                     navigate('/', { replace: true });
                 }
             } else {
-                setError(response.message || 'Login failed');
+                setError(response.message || 'Login failed - Invalid user data');
             }
         } catch (error: any) {
             console.error('Login error:', error);
@@ -74,7 +74,6 @@ const Login: React.FC = () => {
         }
     };
 
-    // Kiểm tra nếu user đã đăng nhập và có role admin thì redirect
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
         if (storedUser) {

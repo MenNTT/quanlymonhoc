@@ -7,7 +7,7 @@ export const API_ENDPOINTS = {
     AUTH: {
         LOGIN: `${BASE_PATH}/auth/login`,
         REGISTER: `${BASE_PATH}/auth/register`,
-        UPDATE: (userId: string) => `${BASE_PATH}/users/${userId}/profile`,
+        UPDATE: (id: string) => `${BASE_PATH}/auth/update/${id}`,
     },
 
     // Account endpoints
