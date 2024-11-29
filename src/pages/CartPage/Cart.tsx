@@ -12,6 +12,10 @@ const Cart: React.FC = () => {
         navigate('/payment');
     };
 
+    const formatPrice = (price: number | undefined) => {
+        return price ? price.toLocaleString() : '0';
+    };
+
     if (cartItems.length === 0) {
         return (
             <div className="container py-5">
@@ -62,20 +66,15 @@ const Cart: React.FC = () => {
                                                         <span className="me-3">
                                                             <i className="fas fa-clock text-primary me-1"></i> 6 giờ
                                                         </span>
-                                                        <span className="me-3">
-                                                            <i className="fas fa-video text-primary me-1"></i> 24 bài học
-                                                        </span>
                                                     </div>
                                                 </div>
                                                 <div className="text-end">
-                                                    <h5 className="text-primary mb-3">
-                                                        {item.feeAmount.toLocaleString()} {item.currency}
-                                                    </h5>
+                                                    <h5 className="text-primary mb-2">{formatPrice(item.feeAmount)} VND</h5>
                                                     <button 
                                                         className="btn btn-outline-danger btn-sm"
                                                         onClick={() => removeFromCart(item.id.toString())}
                                                     >
-                                                        <i className="fas fa-trash me-1"></i>
+                                                        <i className="fas fa-trash-alt me-1"></i>
                                                         Xóa
                                                     </button>
                                                 </div>
@@ -110,7 +109,7 @@ const Cart: React.FC = () => {
                             <div className="price-details">
                                 <div className="d-flex justify-content-between mb-2">
                                     <span>Tạm tính</span>
-                                    <span>{totalAmount.toLocaleString()} VND</span>
+                                    <span>{formatPrice(totalAmount)} VND</span>
                                 </div>
                                 <div className="d-flex justify-content-between mb-2">
                                     <span>Giảm giá</span>
@@ -119,7 +118,7 @@ const Cart: React.FC = () => {
                                 <hr />
                                 <div className="d-flex justify-content-between mb-4">
                                     <strong>Tổng cộng</strong>
-                                    <strong className="text-primary">{totalAmount.toLocaleString()} VND</strong>
+                                    <strong className="text-primary">{formatPrice(totalAmount)} VND</strong>
                                 </div>
                             </div>
 

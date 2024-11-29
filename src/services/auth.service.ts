@@ -25,6 +25,7 @@ class AuthService extends BaseService {
                 });
 
                 cookieService.set('authToken', response.data.token);
+                localStorage.setItem('authToken', response.data.token);
                 return {
                     success: true,
                     message: response.data.message,

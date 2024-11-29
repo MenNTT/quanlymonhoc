@@ -31,6 +31,7 @@ import CoursesPage from "../pages/CoursesPage/CoursesPage.tsx";
 import AdminCourseDetail from "../pages/admin/CourseDetail";
 import Lookup from "../pages/aboutnews/Lockup.tsx";
 import ChatBox from '../components/ChatBox';
+import PaymentSuccess from '../pages/PaymentPage/PaymentSuccess';
 
 const RouteComponent: React.FC = () => {
     const location = useLocation();
@@ -91,6 +92,11 @@ const RouteComponent: React.FC = () => {
                 <Route path='/cart' element={
                     <ProtectedRoute>
                         <Cart />
+                    </ProtectedRoute>
+                } />
+                <Route path='/payment-success' element={
+                    <ProtectedRoute>
+                        <PaymentSuccess />
                     </ProtectedRoute>
                 } />
 

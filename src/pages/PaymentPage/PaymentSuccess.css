@@ -1,0 +1,60 @@
+.payment-success-container {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.success-card {
+    background: white;
+    padding: 3rem;
+    border-radius: 1rem;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    max-width: 600px;
+    width: 100%;
+}
+
+.success-icon {
+    font-size: 5rem;
+    color: #28a745;
+    margin-bottom: 1.5rem;
+}
+
+.success-icon i {
+    animation: scale 0.5s ease-in-out;
+}
+
+.success-card h1 {
+    color: #28a745;
+    margin-bottom: 1rem;
+}
+
+.success-card p {
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.action-buttons button {
+    min-width: 200px;
+}
+
+@keyframes scale {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+} 

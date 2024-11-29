@@ -1,27 +1,23 @@
 import axios from 'axios';
+import { BASE_URL } from '../constants/api/api.config';
+import { cookieService } from '../services/cookie.service';
 
-// Add request interceptor
-axios.interceptors.request.use(
-    config => {
-        console.log('Request:', config);
+const axiosInstance = axios.create({
+    baseURL: BASE_URL,
+});
+
+// Add a request interceptor
+axiosInstance.interceptors.request.use(
+    (config) => {
+        const token = cookieService.get('authToken') || localStorage.getItem('authToken');
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
         return config;
     },
-    error => {
-        console.error('Request Error:', error);
+    (error) => {
         return Promise.reject(error);
     }
 );
 
-// Add response interceptor
-axios.interceptors.response.use(
-    response => {
-        console.log('Response:', response);
-        return response;
-    },
-    error => {
-        console.error('Response Error:', error);
-        return Promise.reject(error);
-    }
-);
-
-export default axios; 
+export default axiosInstance; 

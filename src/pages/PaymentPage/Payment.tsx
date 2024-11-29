@@ -1,147 +1,92 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { CourseService } from '../../services/course.service';
-import { VNPayService } from '../../services/vnpay.service';
+import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useCart } from '../../contexts/CartContext';
+import { CourseService } from '../../services/course.service';
 import './Payment.css';
-import { Course } from '../../models/Course';
 
 const Payment: React.FC = () => {
-    const { id_course } = useParams<{ id_course: string }>();
-    const [course, setCourse] = useState<Course | null>(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
+    const location = useLocation();
     const { cartItems, totalAmount, clearCart } = useCart();
+    const [isProcessing, setIsProcessing] = useState(false);
 
-    useEffect(() => {
-        const fetchCourseData = async () => {
-            if (id_course) {
-                try {
-                    const data = await CourseService.getCourseById(id_course);
-                    setCourse(data);
-                } catch (error) {
-                    setError('Không thể tải thông tin khóa học');
-                    console.error(error);
-                }
-            }
-        };
+    const handlePayment = async () => {
+        if (isProcessing) return;
         
-        if (id_course) {
-            fetchCourseData();
-        }
-    }, [id_course]);
-
-    const handleVNPayPayment = async () => {
         try {
-            setLoading(true);
-            const amount = id_course && course ? course.feeAmount : totalAmount;
-            const orderInfo = id_course && course
-                ? `Thanh toan khoa hoc ${course.name}`
-                : `Thanh toan gio hang`;
-
-            const response = await VNPayService.createPaymentUrl(amount, orderInfo);
-            
-            if (response.paymentUrl) {
-                // Lưu thông tin đơn hàng vào localStorage trước khi chuyển hướng
-                const orderData = {
-                    items: id_course ? [course] : cartItems,
-                    totalAmount: amount,
-                    orderInfo
-                };
-                localStorage.setItem('pendingOrder', JSON.stringify(orderData));
-                
-                // Chuyển hướng đến trang thanh toán VNPay
-                window.location.href = response.paymentUrl;
+            setIsProcessing(true);
+            for (const course of cartItems) {
+                await CourseService.enrollCourse(course.id);
             }
-        } catch (error) {
-            setError('Có lỗi xảy ra khi tạo thanh toán. Vui lòng thử lại.');
+            
+            await clearCart();
+            navigate('/payment-success');
+        } catch (error: any) {
             console.error('Payment error:', error);
+            if (error.message.includes('đăng nhập')) {
+                if (window.confirm('Bạn cần đăng nhập để thanh toán. Đăng nhập ngay?')) {
+                    navigate('/login', { state: { from: location.pathname } });
+                }
+                return;
+            }
+            alert(error.message || 'Có lỗi xảy ra trong quá trình thanh toán');
         } finally {
-            setLoading(false);
+            setIsProcessing(false);
         }
     };
 
-    const handlePaymentSuccess = () => {
-        // Xóa giỏ hàng nếu thanh toán thành công
-        clearCart();
-        // Chuyển hướng đến trang thành công
-        navigate('/payment-success');
-    };
-
-    const calculateTotal = () => {
-        if (id_course && course) {
-            return course.feeAmount;
-        }
-        return totalAmount;
+    const formatPrice = (price: number) => {
+        return price.toLocaleString('vi-VN');
     };
 
     return (
         <div className="container py-5">
             <div className="row justify-content-center">
-                <div className="col-md-8">
+                <div className="col-lg-8">
                     <div className="card shadow">
-                        <div className="card-header bg-primary text-white">
-                            <h3 className="mb-0">Thanh toán khóa học</h3>
-                        </div>
-                        <div className="card-body">
-                            {error && (
-                                <div className="alert alert-danger">{error}</div>
-                            )}
+                        <div className="card-body p-4">
+                            <h3 className="card-title mb-4">Xác nhận thanh toán</h3>
                             
-                            <div className="payment-details mb-4">
-                                <h4 className="mb-3">Chi tiết đơn hàng</h4>
-                                {id_course && course ? (
-                                    <div className="course-item">
-                                        <h5>{course.name}</h5>
-                                        <p className="text-primary fw-bold">
-                                            {course.feeAmount.toLocaleString()} VND
-                                        </p>
+                            <div className="order-summary mb-4">
+                                <h5 className="mb-3">Chi tiết đơn hàng</h5>
+                                {cartItems.map(item => (
+                                    <div key={item.id} className="d-flex justify-content-between align-items-center mb-2">
+                                        <span>{item.name}</span>
+                                        <span className="text-primary">{formatPrice(item.feeAmount)} VND</span>
                                     </div>
-                                ) : (
-                                    cartItems.map(item => (
-                                        <div key={item.id} className="course-item">
-                                            <h5>{item.name}</h5>
-                                            <p className="text-primary fw-bold">
-                                                {item.feeAmount.toLocaleString()} VND
-                                            </p>
-                                        </div>
-                                    ))
-                                )}
-                                
-                                <div className="total-amount mt-3">
-                                    <h5>Tổng thanh toán:</h5>
-                                    <h4 className="text-primary">
-                                        {calculateTotal().toLocaleString()} VND
-                                    </h4>
+                                ))}
+                                <hr />
+                                <div className="d-flex justify-content-between align-items-center">
+                                    <strong>Tổng cộng</strong>
+                                    <strong className="text-primary">{formatPrice(totalAmount)} VND</strong>
                                 </div>
                             </div>
 
-                            <div className="payment-methods">
-                                <h4 className="mb-3">Phương thức thanh toán</h4>
-                                <div className="d-grid gap-2">
-                                    <button
-                                        className="btn btn-primary btn-lg"
-                                        onClick={handleVNPayPayment}
-                                        disabled={loading}
-                                    >
-                                        {loading ? (
-                                            <span>
-                                                <span className="spinner-border spinner-border-sm me-2" />
-                                                Đang xử lý...
-                                            </span>
-                                        ) : (
-                                            <>
-                                                <img 
-                                                    src="/vnpay-logo.png" 
-                                                    alt="VNPay" 
-                                                    className="payment-method-icon"
-                                                />
-                                                Thanh toán qua VNPay
-                                            </>
-                                        )}
-                                    </button>
-                                </div>
+                            <div className="payment-actions">
+                                <button 
+                                    className="btn btn-primary btn-lg w-100 mb-3"
+                                    onClick={handlePayment}
+                                    disabled={isProcessing}
+                                >
+                                    {isProcessing ? (
+                                        <>
+                                            <span className="spinner-border spinner-border-sm me-2" />
+                                            Đang xử lý...
+                                        </>
+                                    ) : (
+                                        <>
+                                            <i className="fas fa-check-circle me-2"></i>
+                                            Xác nhận thanh toán
+                                        </>
+                                    )}
+                                </button>
+                                <button 
+                                    className="btn btn-outline-secondary w-100"
+                                    onClick={() => navigate('/cart')}
+                                >
+                                    <i className="fas fa-arrow-left me-2"></i>
+                                    Quay lại giỏ hàng
+                                </button>
                             </div>
                         </div>
                     </div>

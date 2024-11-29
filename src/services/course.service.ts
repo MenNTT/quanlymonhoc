@@ -1,6 +1,20 @@
 import axios from 'axios';
 import { Course } from '../models/Course';
 import { API_ENDPOINTS } from '../constants/api/api.config';
+import { useAuth } from '../contexts/AuthContext';
+
+const getAuthHeader = () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        throw new Error('Vui lòng đăng nhập để tiếp tục');
+    }
+    return {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    };
+};
 
 export class CourseService {
     static async getAllCourses(): Promise<Course[]> {
@@ -54,12 +68,31 @@ export class CourseService {
 
     static async enrollCourse(courseId: string): Promise<void> {
         try {
-            await axios.post(API_ENDPOINTS.COURSE.ENROLL, {
-                courseId,
-            });
-        } catch (error) {
-            console.error('Error enrolling in course:', error);
-            throw new Error('Không thể đăng ký khóa học');
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            if (!user.id) {
+                throw new Error('Vui lòng đăng nhập để đăng ký khóa học');
+            }
+
+            const response = await axios.post(
+                API_ENDPOINTS.ENROLLMENT.ENROLL,
+                {
+                    userId: user.id,
+                    courseId
+                },
+                getAuthHeader()
+            );
+
+            if (!response.data.success) {
+                throw new Error(response.data.message || 'Không thể đăng ký khóa học');
+            }
+
+            return response.data;
+        } catch (error: any) {
+            console.error('Enrollment error:', error);
+            if (error.response?.status === 401) {
+                throw new Error('Vui lòng đăng nhập để tiếp tục');
+            }
+            throw new Error(error.response?.data?.message || 'Có lỗi xảy ra khi đăng ký khóa học');
         }
     }
 
@@ -80,6 +113,23 @@ export class CourseService {
         } catch (error) {
             console.error('Error fetching recent courses:', error);
             throw new Error('Không thể tải danh sách khóa học mới');
+        }
+    }
+
+    static async getEnrolledCourses(): Promise<Course[]> {
+        try {
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            const accountId = user.email;
+
+            if (!accountId) {
+                throw new Error('Vui lòng đăng nhập để xem khóa học');
+            }
+
+            const response = await axios.get(`${API_ENDPOINTS.ENROLLMENT.GET_BY_USER}/${accountId}`);
+            return response.data;
+        } catch (error: any) {
+            console.error('Get enrolled courses error:', error);
+            throw new Error(error.response?.data?.message || 'Có lỗi xảy ra khi lấy danh sách khóa học');
         }
     }
 } 

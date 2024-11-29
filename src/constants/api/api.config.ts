@@ -53,10 +53,12 @@ export const API_ENDPOINTS = {
     // Enrollment endpoints
     ENROLLMENT: {
         GET_ALL: `${BASE_PATH}/enrollment/getAll`,
-        GET_BY_ID: (id: string | number) => `${BASE_PATH}/enrollment/get/${id}`,
+        GET_BY_ID: (id: string) => `${BASE_PATH}/enrollment/get/${id}`,
         CREATE: `${BASE_PATH}/enrollment/create`,
         UPDATE: `${BASE_PATH}/enrollment/update`,
-        DELETE: (id: string | number) => `${BASE_PATH}/enrollment/delete/${id}`,
+        DELETE: (id: string) => `${BASE_PATH}/enrollment/delete/${id}`,
+        GET_BY_USER: `${BASE_PATH}/enrollment/user`,
+        ENROLL: `${BASE_PATH}/enrollment/enroll`,
     },
 
     // Assignment endpoints
@@ -148,6 +150,20 @@ export const API_ENDPOINTS = {
         UPDATE: `${BASE_PATH}/log/update`,
         DELETE: (id: string | number) => `${BASE_PATH}/log/delete/${id}`,
     },
+
+    // Cart endpoints
+    CART: {
+        GET_ALL: `${BASE_PATH}/cart/getAll`,
+        GET_BY_USER: (userId: string) => `${BASE_PATH}/cart/${userId}`,
+        ADD: `${BASE_PATH}/cart/add`,
+        REMOVE: (id: string) => `${BASE_PATH}/cart/remove/${id}`,
+        CLEAR: `${BASE_PATH}/cart/clear`,
+    },
+
+    COURSES: {
+        ENROLL: '/api/v1/courses/enroll',
+        GET_ENROLLED: '/api/v1/courses/enrolled'
+    }
 
 } as const;
 

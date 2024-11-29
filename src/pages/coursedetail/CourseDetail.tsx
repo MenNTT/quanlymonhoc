@@ -5,6 +5,7 @@ import { FaClock, FaUsers, FaStar, FaEdit, FaTrash, FaShoppingCart } from 'react
 import '../../styles/course-detail.css';
 import { useCart } from '../../contexts/CartContext';
 import { Course as CourseType } from '../../models/Course';
+import { CartService } from '../../services/cart.service';
 
 interface CourseDetailProps {
     isAdminView?: boolean;
@@ -47,9 +48,13 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ isAdminView = false }) => {
         }).format(amount);
     };
 
-    const handleAddToCart = (course: CourseType) => {
-        addToCart(course);
-        alert('Đã thêm khóa học vào giỏ hàng!');
+    const handleAddToCart = async (course: CourseType) => {
+        try {
+            await addToCart(course);
+        } catch (error: any) {
+            console.error(error);
+            alert(error.message || 'Có lỗi xảy ra khi thêm vào giỏ hàng');
+        }
     };
 
     const handleEnrollCourse = async () => {
