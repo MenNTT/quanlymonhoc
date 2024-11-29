@@ -24,7 +24,7 @@ export const API_ENDPOINTS = {
     COURSE: {
         GET_ALL: `${BASE_PATH}/course/getAll`,
         GET_BY_ID: (id: string | number) => `${BASE_PATH}/course/get/${id}`,
-        CREATE: `${BASE_PATH}/course/create`,
+        CREATE: `${BASE_URL}/${BASE_PATH}/course/create`,
         UPDATE: `${BASE_PATH}/course/update`,
         DELETE: (id: string | number) => `${BASE_PATH}/course/delete/${id}`,
         REVENUE: `${BASE_PATH}/course/revenue`,
@@ -157,12 +157,13 @@ export const API_ENDPOINTS = {
         GET_BY_USER: (userId: string) => `${BASE_PATH}/cart/${userId}`,
         ADD: `${BASE_PATH}/cart/add`,
         REMOVE: (id: string) => `${BASE_PATH}/cart/remove/${id}`,
-        CLEAR: `${BASE_PATH}/cart/clear`,
+        CLEAR: `${BASE_URL}${BASE_PATH}/cart/clear`,
     },
 
     COURSES: {
-        ENROLL: '/api/v1/courses/enroll',
-        GET_ENROLLED: '/api/v1/courses/enrolled'
+        ENROLL: `${BASE_URL}${BASE_PATH}/enrollment/enroll`,
+        GET_ENROLLED: `${BASE_PATH}/course/enrolled`,
+        GET_MY_COURSES: (userId: string) => `${BASE_PATH}/course/my-courses/${userId}`
     }
 
 } as const;

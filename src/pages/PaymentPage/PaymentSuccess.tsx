@@ -1,36 +1,38 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './PaymentSuccess.css';
+import { FaCheckCircle } from 'react-icons/fa';
 
 const PaymentSuccess: React.FC = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Xóa thông tin đơn hàng từ localStorage nếu có
-        localStorage.removeItem('pendingOrder');
-    }, []);
+        // Tự động chuyển đến trang khóa học của tôi sau 5 giây
+        const timeout = setTimeout(() => {
+            navigate('/profile');
+        }, 5000);
+
+        return () => clearTimeout(timeout);
+    }, [navigate]);
 
     return (
-        <div className="payment-success-container">
-            <div className="success-card">
-                <div className="success-icon">
-                    <i className="fas fa-check-circle"></i>
-                </div>
-                <h1>Đăng ký khóa học thành công!</h1>
-                <p>Cảm ơn bạn đã đăng ký khóa học. Bạn có thể bắt đầu học ngay bây giờ.</p>
-                <div className="action-buttons">
-                    <button 
-                        className="btn btn-primary btn-lg"
+        <div className="container py-5">
+            <div className="text-center">
+                <FaCheckCircle className="text-success mb-4" size={64} />
+                <h2 className="mb-4">Thanh toán thành công!</h2>
+                <p className="mb-4">
+                    Cảm ơn bạn đã đăng ký khóa học. Bạn có thể truy cập khóa học ngay bây giờ.
+                </p>
+                <div className="mt-4">
+                    <button
+                        className="btn btn-primary me-3"
                         onClick={() => navigate('/profile')}
                     >
-                        <i className="fas fa-book me-2"></i>
                         Xem khóa học của tôi
                     </button>
-                    <button 
+                    <button
                         className="btn btn-outline-primary"
                         onClick={() => navigate('/courses')}
                     >
-                        <i className="fas fa-search me-2"></i>
                         Khám phá thêm khóa học
                     </button>
                 </div>

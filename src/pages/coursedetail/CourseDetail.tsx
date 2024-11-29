@@ -6,6 +6,7 @@ import '../../styles/course-detail.css';
 import { useCart } from '../../contexts/CartContext';
 import { Course as CourseType } from '../../models/Course';
 import { CartService } from '../../services/cart.service';
+import { useAuth } from '../../contexts/AuthContext';
 
 interface CourseDetailProps {
     isAdminView?: boolean;
@@ -20,6 +21,7 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ isAdminView = false }) => {
     const [activeTab, setActiveTab] = useState<string>('description');
     const [isEnrolling, setIsEnrolling] = useState<boolean>(false);
     const { addToCart } = useCart();
+    const { user } = useAuth();
 
     useEffect(() => {
         const fetchCourse = async () => {
@@ -50,10 +52,17 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ isAdminView = false }) => {
 
     const handleAddToCart = async (course: CourseType) => {
         try {
+            if (!user) {
+                alert('Vui lòng đăng nhập để thêm vào giỏ hàng');
+                return;
+            }
+            
+            await CartService.addToCart(course.id.toString(), user.id);
             await addToCart(course);
-        } catch (error: any) {
-            console.error(error);
-            alert(error.message || 'Có lỗi xảy ra khi thêm vào giỏ hàng');
+            alert('Đã thêm khóa học vào giỏ hàng!');
+        } catch (err: any) {
+            console.error(err);
+            alert(err.message || 'Có lỗi xảy ra khi thêm vào giỏ hàng');
         }
     };
 
@@ -198,7 +207,7 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ isAdminView = false }) => {
                                 {isAdminView && (
                                     <Link to={`/admin/courses/edit/${id_course}`} className="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 px-4 rounded-lg transition-all flex items-center justify-center">
                                         <FaEdit className="mr-2 h-4 w-4" />
-                                        Chỉnh sửa khóa học
+                                        Chnh sửa khóa học
                                     </Link>
                                 )}
                                 {isAdminView && (

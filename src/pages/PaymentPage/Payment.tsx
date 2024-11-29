@@ -3,20 +3,32 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useCart } from '../../contexts/CartContext';
 import { CourseService } from '../../services/course.service';
 import './Payment.css';
+import { useAuth } from '../../contexts/AuthContext';
 
 const Payment: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { cartItems, totalAmount, clearCart } = useCart();
+    const { user } = useAuth();
     const [isProcessing, setIsProcessing] = useState(false);
+
+    const formatPrice = (price: number | undefined) => {
+        if (typeof price === 'undefined') return '0';
+        return price.toLocaleString('vi-VN');
+    };
 
     const handlePayment = async () => {
         if (isProcessing) return;
         
         try {
             setIsProcessing(true);
+            
+            if (!user?.id) {
+                throw new Error('Vui lòng đăng nhập để thanh toán');
+            }
+
             for (const course of cartItems) {
-                await CourseService.enrollCourse(course.id);
+                await CourseService.enrollCourse(user.email, course.id);
             }
             
             await clearCart();
@@ -35,10 +47,6 @@ const Payment: React.FC = () => {
         }
     };
 
-    const formatPrice = (price: number) => {
-        return price.toLocaleString('vi-VN');
-    };
-
     return (
         <div className="container py-5">
             <div className="row justify-content-center">
@@ -52,7 +60,9 @@ const Payment: React.FC = () => {
                                 {cartItems.map(item => (
                                     <div key={item.id} className="d-flex justify-content-between align-items-center mb-2">
                                         <span>{item.name}</span>
-                                        <span className="text-primary">{formatPrice(item.feeAmount)} VND</span>
+                                        <span className="text-primary">
+                                            {formatPrice(item.feeAmount || 0)} VND
+                                        </span>
                                     </div>
                                 ))}
                                 <hr />

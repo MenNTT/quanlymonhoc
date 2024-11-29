@@ -1,5 +1,6 @@
 import axios from './axios.config';
 import { API_ENDPOINTS } from '../constants/api/api.config';
+import {cookieService} from "./cookie.service.ts";
 
 export const CartService = {
     addToCart: async (courseId: string, userId: string) => {
@@ -54,7 +55,10 @@ export const CartService = {
     clearCart: async (userId: string) => {
         try {
             const response = await axios.delete(API_ENDPOINTS.CART.CLEAR, {
-                data: { userId }
+                data: { userId },
+                headers: {
+                    Authorization: `Bearer ${cookieService.get('authToken')}`
+                },
             });
             return response.data;
         } catch (error: any) {

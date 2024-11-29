@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { BASE_URL } from '../constants/api/api.config';
-import { cookieService } from '../services/cookie.service';
+import {cookieService} from '../services/cookie.service';
 
 const axiosInstance = axios.create({
     baseURL: BASE_URL,

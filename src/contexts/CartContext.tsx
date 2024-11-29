@@ -5,9 +5,9 @@ import { useAuth } from './AuthContext';
 
 interface CartContextType {
     cartItems: Course[];
-    addToCart: (item: Course) => Promise<void>;
-    removeFromCart: (id: string) => Promise<void>;
-    clearCart: () => Promise<void>;
+    addToCart: (item: Course) => void;
+    removeFromCart: (id: string) => void;
+    clearCart: () => void;
     totalAmount: number;
 }
 
