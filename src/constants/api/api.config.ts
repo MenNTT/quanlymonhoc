@@ -22,13 +22,13 @@ export const API_ENDPOINTS = {
 
     // Course endpoints
     COURSE: {
-        GET_ALL: `${BASE_PATH}/course/getAll`,
+        GET_ALL: `${BASE_URL}${BASE_PATH}/course/getAll`,
         GET_BY_ID: (id: string | number) => `${BASE_PATH}/course/get/${id}`,
-        CREATE: `${BASE_URL}/${BASE_PATH}/course/create`,
+        CREATE: `${BASE_URL}${BASE_PATH}/course/create`,
         UPDATE: `${BASE_PATH}/course/update`,
         DELETE: (id: string | number) => `${BASE_PATH}/course/delete/${id}`,
         REVENUE: `${BASE_PATH}/course/revenue`,
-        RECENT: `${BASE_PATH}/course/recent`,
+        RECENT: `${BASE_URL}${BASE_PATH}/course/recent`,
         ENROLL: `${BASE_PATH}/course/enroll`,
     },
 

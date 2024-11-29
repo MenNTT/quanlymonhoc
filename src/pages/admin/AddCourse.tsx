@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AdminLayout from '../../layouts/AdminLayout';
 import { Link, useNavigate } from 'react-router-dom';
 import { CourseService } from '../../services/course.service';
+import { cookieService } from '../../services/cookie.service';
 
 const AddCourse = () => {
-    
-    console.log("aaa")
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         name: '',
@@ -15,6 +14,13 @@ const AddCourse = () => {
         currency: 'VND'
     });
     const [error, setError] = useState('');
+
+    useEffect(() => {
+        const token = cookieService.get('authToken');
+        if (!token) {
+            navigate('/login', { state: { from: '/admin/add-course' } });
+        }
+    }, []);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData({
@@ -26,16 +32,25 @@ const AddCourse = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
+            if (!formData.name || !formData.description || !formData.feeAmount) {
+                setError('Vui lòng điền đầy đủ thông tin');
+                return;
+            }
+
             const courseRequest = {
                 ...formData,
                 feeAmount: parseFloat(formData.feeAmount)
             };
             
-            await CourseService.createCourse(courseRequest);
+            console.log('Submitting course data:', courseRequest);
+            
+            const result = await CourseService.createCourse(courseRequest);
+            console.log('Course created:', result);
+            
             navigate('/admin/courses');
-        } catch (error) {
-            setError('Có lỗi xảy ra khi tạo khóa học');
-            console.error('Error:', error);
+        } catch (error: any) {
+            console.error('Error creating course:', error);
+            setError(error.message || 'Có lỗi xảy ra khi tạo khóa học');
         }
     };
 

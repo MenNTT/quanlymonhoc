@@ -1,11 +1,11 @@
-import axios from 'axios';
+import axios from './axios.config';
 import { Course } from '../models/Course';
 import { API_ENDPOINTS } from '../constants/api/api.config';
 import { useAuth } from '../contexts/AuthContext';
 import {cookieService} from "./cookie.service.ts";
 
 const getAuthHeader = () => {
-    const token = localStorage.getItem('token');
+    const token = cookieService.get('authToken');
     if (!token) {
         throw new Error('Vui lòng đăng nhập để tiếp tục');
     }
@@ -40,7 +40,7 @@ export const CourseService = {
 
     createCourse: async (courseData: Partial<Course>): Promise<Course> => {
         try {
-            const response = await axios.post(API_ENDPOINTS.COURSE.CREATE, courseData);
+            const response = await axios.post(API_ENDPOINTS.COURSE.CREATE, courseData, getAuthHeader());
             return response.data.course;
         } catch (error) {
             console.error('Error creating course:', error);
@@ -105,10 +105,13 @@ export const CourseService = {
 
     getRecentCourses: async (): Promise<Course[]> => {
         try {
-            const response = await axios.get(API_ENDPOINTS.COURSE.RECENT);
+            const response = await axios.get(
+                API_ENDPOINTS.COURSE.RECENT,
+                getAuthHeader()
+            );
             return response.data;
-        } catch (error) {
-            console.error('Error fetching recent courses:', error);
+        } catch (error: any) {
+            console.error('Error fetching recent courses:', error.response || error);
             throw new Error('Không thể tải danh sách khóa học mới');
         }
     },
