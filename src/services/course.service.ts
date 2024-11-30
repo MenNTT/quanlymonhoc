@@ -119,26 +119,39 @@ export const CourseService = {
     getEnrolledCourses: async (): Promise<Course[]> => {
         try {
             const user = JSON.parse(localStorage.getItem('user') || '{}');
-            const accountId = user.email;
+            const accountId = user.id;
 
             if (!accountId) {
                 throw new Error('Vui lòng đăng nhập để xem khóa học');
             }
 
-            const response = await axios.get(`${API_ENDPOINTS.ENROLLMENT.GET_BY_USER}/${accountId}`);
-            return response.data;
+            const response = await axios.get(
+                `${API_ENDPOINTS.ENROLLMENT.GET_BY_USER}/${accountId}`,
+                getAuthHeader()
+            );
+            
+            if (response.data) {
+                if (Array.isArray(response.data)) {
+                    return response.data;
+                } else if (response.data.courses && Array.isArray(response.data.courses)) {
+                    return response.data.courses;
+                } else if (response.data.data && Array.isArray(response.data.data)) {
+                    return response.data.data;
+                }
+            }
+            
+            console.log('Response data:', response.data);
+            return [];
+            
         } catch (error: any) {
             console.error('Get enrolled courses error:', error);
-            throw new Error(error.response?.data?.message || 'Có lỗi xảy ra khi lấy danh sách khóa học');
-        }
-    },
-
-    getMyCourses: async (userId: string) => {
-        try {
-            const response = await axios.get(API_ENDPOINTS.COURSES.GET_MY_COURSES(userId));
-            return response.data;
-        } catch (error: any) {
-            throw new Error('Không thể tải danh sách khóa học');
+            if (error.response?.status === 404) {
+                return [];
+            }
+            throw new Error(
+                error.response?.data?.message || 
+                'Có lỗi xảy ra khi lấy danh sách khóa học'
+            );
         }
     }
 }; 

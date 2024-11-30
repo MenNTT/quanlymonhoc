@@ -57,7 +57,7 @@ export const API_ENDPOINTS = {
         CREATE: `${BASE_PATH}/enrollment/create`,
         UPDATE: `${BASE_PATH}/enrollment/update`,
         DELETE: (id: string) => `${BASE_PATH}/enrollment/delete/${id}`,
-        GET_BY_USER: `${BASE_PATH}/enrollment/user`,
+        GET_BY_USER: '/api/v1/enrollments/user',
         ENROLL: `${BASE_PATH}/enrollment/enroll`,
     },
 

@@ -32,6 +32,7 @@ import AdminCourseDetail from "../pages/admin/CourseDetail";
 import Lookup from "../pages/aboutnews/Lockup.tsx";
 import ChatBox from '../components/ChatBox';
 import PaymentSuccess from '../pages/PaymentPage/PaymentSuccess';
+import MyCoursesPage from "../pages/MyCoursesPage.tsx";
 
 const RouteComponent: React.FC = () => {
     const location = useLocation();
@@ -188,6 +189,14 @@ const RouteComponent: React.FC = () => {
                     element={
                         <ProtectedRoute requiredRole="admin">
                             <AdminCourseDetail />
+                        </ProtectedRoute>
+                    } 
+                />
+                <Route 
+                    path="/my-courses" 
+                    element={
+                        <ProtectedRoute>
+                            <MyCoursesPage />
                         </ProtectedRoute>
                     } 
                 />

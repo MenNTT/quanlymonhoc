@@ -63,4 +63,88 @@ button:disabled {
 ::-webkit-scrollbar-thumb:hover {
     background: #666;
 }
+
+/* Custom scrollbar styles */
+.custom-scrollbar {
+    /* Cho Webkit browsers (Chrome, Safari) */
+    &::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #c4c4c4;
+        border-radius: 4px;
+        
+        &:hover {
+            background: #a0a0a0;
+        }
+    }
+
+    /* Cho Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: #c4c4c4 #f1f1f1;
+}
+
+/* Đảm bảo header của bảng luôn cố định */
+.table-container {
+    position: relative;
+}
+
+thead {
+    position: sticky;
+    top: 0;
+    background: #f9fafb;
+    z-index: 10;
+}
+
+/* Thêm shadow nhẹ cho header khi scroll */
+thead::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 100%);
+}
+
+/* Làm mịn animation khi scroll */
+.smooth-scroll {
+    scroll-behavior: smooth;
+}
+
+/* Responsive padding cho các cell */
+td, th {
+    padding: 1rem;
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    td, th {
+        padding: 0.75rem;
+    }
+}
+
+/* Thêm hover effect cho rows */
+tbody tr {
+    transition: all 0.2s ease;
+}
+
+tbody tr:hover {
+    background-color: #f8f9ff;
+}
+
+/* Style cho sticky columns nếu cần */
+.sticky-col {
+    position: sticky;
+    left: 0;
+    background: inherit;
+    z-index: 1;
+}
  
